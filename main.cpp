@@ -1,11 +1,11 @@
-#include "containers/Vector.hpp"
-#include "containers/Array.hpp"
-#include "containers/String.hpp"
-#include "containers/Stack.hpp"
-#include "containers/Deque.hpp"
-#include "containers/Queue.hpp"
-#include "containers/List.hpp"
-#include "containers/AVLtree.hpp"
+#include "containers/Vector/Vector.hpp"
+#include "containers/Vector/Array.hpp"
+#include "containers/String/String.hpp"
+#include "containers/Stack/Stack.hpp"
+#include "containers/Deque/DequeOn.hpp"
+#include "containers/Queue/QueueOn.hpp"
+#include "containers/List/ListD.hpp"
+#include "containers/Tree/AVLtree.hpp"
 #include <cassert>
 #include <iostream>
 #include <string>
@@ -1033,34 +1033,34 @@ void test_stack_class() {
 }
 
 
-void test_deque_class() {
-    std::cout << "\n=== Deque Class Test ===\n";
+void test_dequeOn_class() {
+    std::cout << "\n=== DequeOn Class Test ===\n";
     int test_counter = 0;
 
     // ====================== CONSTRUCTORS & BASIC OPERATIONS ======================
     {
         //Default constructor
-        Deque<String> d1;
+        DequeOn<String> d1;
         assert(d1.empty());
         assert(d1.size() == 0);
         assert(d1.max_size() >= 1);
         test_counter += 3;
 
         //Initial capacity
-        Deque<std::string> d2(15);
+        DequeOn<std::string> d2(15);
         assert(d2.empty());
         assert(d2.max_size() == 15);
         test_counter += 2;
 
         //Initializer list constructor
-        Deque<std::string> d3 = { "A", "B", "C" };
+        DequeOn<std::string> d3 = { "A", "B", "C" };
         assert(d3.size() == 3);
         assert(d3.front() == "A");
         assert(d3.back() == "C");
         test_counter += 3;
 
         //Push back/front
-        Deque<std::string> d4;
+        DequeOn<std::string> d4;
         d4.push_back("X");
         d4.push_front("Y");
         assert(d4.size() == 2);
@@ -1080,7 +1080,7 @@ void test_deque_class() {
     // ====================== RING BUFFER BEHAVIOR ======================
     {
         //Wrap-around behavior
-        Deque<int> d(3);
+        DequeOn<int> d(3);
         d.push_back(1);
         d.push_back(2);
         d.push_back(3);
@@ -1106,7 +1106,7 @@ void test_deque_class() {
 
     // ====================== ELEMENT ACCESS & ITERATORS ======================
     {
-        Deque<String> d = { "A", "B", "C", "D" };
+        DequeOn<String> d = { "A", "B", "C", "D" };
 
         // Test 8: operator[]
         assert(d[0] == "A");
@@ -1143,7 +1143,7 @@ void test_deque_class() {
 
     // ====================== INSERT & ERASE OPERATIONS ======================
     {
-        Deque<std::string> d = { "A", "D" };
+        DequeOn<std::string> d = { "A", "D" };
 
         //Insert middle
         auto it = d.begin() + 1;
@@ -1171,7 +1171,7 @@ void test_deque_class() {
 
     // ====================== CAPACITY MANAGEMENT ======================
     {
-        Deque<std::string> d;
+        DequeOn<std::string> d;
 
         //Reserve expansion
         d.reserve(100);
@@ -1203,7 +1203,7 @@ void test_deque_class() {
     // ====================== STRESS TESTS ======================
     {
         //Front-heavy workload
-        Deque<int> d1;
+        DequeOn<int> d1;
         for (int i = 0; i < 1000; i++) {
             d1.push_front(i);
         }
@@ -1213,7 +1213,7 @@ void test_deque_class() {
         ++test_counter;
 
         // Mixed operations
-        Deque<int> d2;
+        DequeOn<int> d2;
         for (int i = 0; i < 500; i++) {
             if (i % 2 == 0) {
                 d2.push_front(i);
@@ -1226,7 +1226,7 @@ void test_deque_class() {
         ++test_counter;
 
         // Alternating operations
-        Deque<int> d3;
+        DequeOn<int> d3;
         for (int i = 0; i < 1000; i++) {
             if (i % 3 == 0) {
                 d3.push_front(i);
@@ -1245,7 +1245,7 @@ void test_deque_class() {
     // ====================== COMPREHENSIVE VERIFICATION ======================
     {
         // Test 22
-        Deque<int> d;
+        DequeOn<int> d;
         Vector<int> ref;
 
         for (int i = 0; i < 200; ++i) {
@@ -1291,7 +1291,7 @@ void test_deque_class() {
     // ====================== ADDITIONAL TESTS ======================
     {
         // Test 23: Insert at front when buffer is full (should trigger reallocation)
-        Deque<int> d(3);
+        DequeOn<int> d(3);
         d.push_back(1);
         d.push_back(2);
         d.push_back(3);
@@ -1312,7 +1312,7 @@ void test_deque_class() {
         test_counter += 5;
 
         // Test 25: Insert at back when front is full (ring buffer behavior)
-        Deque<int> d2(5);
+        DequeOn<int> d2(5);
         d2.push_front(1);
         d2.push_front(2);
         d2.push_front(3);
@@ -1331,21 +1331,21 @@ void test_deque_class() {
         assert(d2.back() == 4);
         test_counter += 3;
 
-        // Test 27: Insert into empty deque using iterator
-        Deque<std::string> d3;
+        // Test 27: Insert into empty DequeOn using iterator
+        DequeOn<std::string> d3;
         d3.insert(d3.begin(), "A");
         assert(d3.size() == 1);
         assert(d3.front() == "A");
         test_counter += 2;
 
-        // Test 28: Erase single element deque
-        Deque<int> d4 = { 42 };
+        // Test 28: Erase single element DequeOn
+        DequeOn<int> d4 = { 42 };
         d4.erase(d4.begin());
         assert(d4.empty());
         ++test_counter;
 
         // Test 29: Iterator validity after reallocation
-        Deque<int> d5;
+        DequeOn<int> d5;
         d5.push_back(1);
         auto it = d5.begin();
         for (int i = 0; i < 100; ++i) {
@@ -1360,7 +1360,7 @@ void test_deque_class() {
         ++test_counter;
 
         // Test 30: Iterator arithmetic operations
-        Deque<int> d6 = { 10, 20, 30, 40, 50 };
+        DequeOn<int> d6 = { 10, 20, 30, 40, 50 };
         auto it1 = d6.begin();
         auto it2 = it1 + 3;
         assert(it2 - it1 == 3);
@@ -1370,8 +1370,8 @@ void test_deque_class() {
         assert(*it1 == 30);
         test_counter += 4;
 
-        // Test 31: Attempt to remove from empty deque
-        Deque<int> d7;
+        // Test 31: Attempt to remove from empty DequeOn
+        DequeOn<int> d7;
         bool exception_caught = false;
         try { d7.pop_back(); }
         catch (const std::out_of_range&) { exception_caught = true; }
@@ -1379,21 +1379,21 @@ void test_deque_class() {
         ++test_counter;
 
         // Test 32: Move constructor functionality
-        Deque<int> d8;
+        DequeOn<int> d8;
         d8.push_back(1);
         d8.push_back(2);
-        Deque<int> d9 = std::move(d8);
+        DequeOn<int> d9 = std::move(d8);
         assert(d9.size() == 2);
         assert(d8.empty());
         test_counter += 2;
     }
 
-    std::cout << "=== All " << test_counter << " deque tests passed! ===\n";
+    std::cout << "=== All " << test_counter << " DequeOn tests passed! ===\n";
     glob_counter += test_counter;
 }
 
 
-void test_queue_class() {
+void test_queueOn_class() {
     std::cout << "\n=== Queue Class Test ===\n";
     int test_counter = 0;
 
@@ -1741,8 +1741,8 @@ void test_queue_class() {
 }
 
 
-void test_list_class() {
-    std::cout << "\n=== List Class Test ===";
+void test_listD_class() {
+    std::cout << "\n=== ListD Class Test ===";
     int test_counter = 0;
 
     // ======================================================
@@ -1750,56 +1750,56 @@ void test_list_class() {
     // ======================================================
     {
         // Tests for std::string
-        List<String> str_list1;
+        ListD<String> str_list1;
         assert(str_list1.empty());                     // Test 1
         assert(str_list1.size() == 0);                // Test 2
         test_counter += 2;
 
-        List<String> str_list2(5, "A");
+        ListD<String> str_list2(5, "A");
         assert(str_list2.size() == 5);                // Test 3
         assert(str_list2[0] == "A");                  // Test 4
         assert(str_list2[4] == "A");                  // Test 5
         test_counter += 3;
 
-        List<std::string> str_list3{ "A", "B", "C" };
+        ListD<std::string> str_list3{ "A", "B", "C" };
         assert(str_list3.size() == 3);                // Test 6
         assert(str_list3[1] == "B");                  // Test 7
         test_counter += 2;
 
         // Tests for int
-        List<int> int_list1;
+        ListD<int> int_list1;
         assert(int_list1.empty());                    // Test 8
         test_counter += 1;
 
-        List<int> int_list2(10, 42);
+        ListD<int> int_list2(10, 42);
         assert(int_list2.size() == 10);               // Test 9
         assert(int_list2[9] == 42);                  // Test 10
         test_counter += 2;
 
-        List<int> int_list3{ 1, 2, 3, 4, 5 };
+        ListD<int> int_list3{ 1, 2, 3, 4, 5 };
         assert(int_list3.size() == 5);                // Test 11
         assert(int_list3[0] == 1);                    // Test 12
         assert(int_list3[4] == 5);                    // Test 13
         test_counter += 3;
 
         // Copy verification
-        List<std::string> str_list4 = str_list3;
+        ListD<std::string> str_list4 = str_list3;
         assert(str_list4.size() == 3);                // Test 14
         assert(str_list4[2] == "C");                  // Test 15
         test_counter += 2;
 
-        List<int> int_list4 = int_list3;
+        ListD<int> int_list4 = int_list3;
         assert(int_list4.size() == 5);                // Test 16
         assert(int_list4[3] == 4);                    // Test 17
         test_counter += 2;
 
         // Move verification
-        List<std::string> str_list5 = std::move(str_list4);
+        ListD<std::string> str_list5 = std::move(str_list4);
         assert(str_list5.size() == 3);                // Test 18
         assert(str_list4.empty());                    // Test 19
         test_counter += 2;
 
-        List<int> int_list5 = std::move(int_list4);
+        ListD<int> int_list5 = std::move(int_list4);
         assert(int_list5.size() == 5);               // Test 20
         assert(int_list4.empty());                    // Test 21
         test_counter += 2;
@@ -1810,7 +1810,7 @@ void test_list_class() {
     // ======================================================
     {
         // Tests for std::string
-        List<String> str_list;
+        ListD<String> str_list;
         str_list.push_back("A");
         assert(str_list.size() == 1);                 // Test 22
         assert(str_list[0] == "A");                   // Test 23
@@ -1827,7 +1827,7 @@ void test_list_class() {
         test_counter += 2;
 
         // Tests for int
-        List<int> int_list;
+        ListD<int> int_list;
         int_list.push_back(10);
         assert(int_list.size() == 1);                // Test 28
         assert(int_list[0] == 10);                   // Test 29
@@ -1844,7 +1844,7 @@ void test_list_class() {
         test_counter += 2;
 
         // Middle insertion for std::string
-        List<std::string> str_list2{ "A", "C" };
+        ListD<std::string> str_list2{ "A", "C" };
         auto it = str_list2.begin() + 1;
         str_list2.insert(it, "B");
         assert(str_list2.size() == 3);                // Test 34
@@ -1852,7 +1852,7 @@ void test_list_class() {
         test_counter += 2;
 
         // Middle insertion for int
-        List<int> int_list2{ 1, 3 };
+        ListD<int> int_list2{ 1, 3 };
         auto it2 = int_list2.begin() + 1;
         int_list2.insert(it2, 2);
         assert(int_list2.size() == 3);                // Test 36
@@ -1860,7 +1860,7 @@ void test_list_class() {
         test_counter += 2;
 
         // Multiple element insertion
-        List<int> int_list3{ 1, 5 };
+        ListD<int> int_list3{ 1, 5 };
         auto it3 = int_list3.begin() + 1;
         int_list3.insert(it3, 3, 3);
         assert(int_list3.size() == 5);                // Test 38
@@ -1874,7 +1874,7 @@ void test_list_class() {
     // ======================================================
     {
         // Tests for std::string
-        List<std::string> str_list{ "A", "B", "C" };
+        ListD<std::string> str_list{ "A", "B", "C" };
         str_list.pop_back();
         assert(str_list.size() == 2);                 // Test 41
         assert(str_list[1] == "B");                   // Test 42
@@ -1886,7 +1886,7 @@ void test_list_class() {
         test_counter += 2;
 
         // Tests for int
-        List<int> int_list{ 1, 2, 3 };
+        ListD<int> int_list{ 1, 2, 3 };
         int_list.pop_back();
         assert(int_list.size() == 2);                 // Test 45
         assert(int_list[1] == 2);                     // Test 46
@@ -1898,7 +1898,7 @@ void test_list_class() {
         test_counter += 2;
 
         // Iterator-based removal for std::string
-        List<std::string> str_list2{ "X", "Y", "Z" };
+        ListD<std::string> str_list2{ "X", "Y", "Z" };
         auto it = str_list2.begin() + 1;
         it = str_list2.erase(it);
         assert(str_list2.size() == 2);                // Test 49
@@ -1906,21 +1906,21 @@ void test_list_class() {
         test_counter += 2;
 
         // Iterator-based removal for int
-        List<int> int_list2{ 10, 20, 30 };
+        ListD<int> int_list2{ 10, 20, 30 };
         auto it2 = int_list2.begin() + 1;
         it2 = int_list2.erase(it2);
         assert(int_list2.size() == 2);                // Test 51
         assert(*it2 == 30);                           // Test 52
         test_counter += 2;
 
-        // List clearing
-        List<int> int_list3{ 1, 2, 3 };
+        // ListD clearing
+        ListD<int> int_list3{ 1, 2, 3 };
         int_list3.clear();
         assert(int_list3.empty());                    // Test 53
         test_counter += 1;
 
-        // Exceptions on empty list
-        List<std::string> empty_list;
+        // Exceptions on empty ListD
+        ListD<std::string> empty_list;
         bool exception_thrown = false;
         try { empty_list.pop_back(); }
         catch (...) { exception_thrown = true; }
@@ -1934,7 +1934,7 @@ void test_list_class() {
         test_counter += 1;
 
         // Removing elements one by one
-        List<int> int_list4{ 1, 2, 3 };
+        ListD<int> int_list4{ 1, 2, 3 };
         int_list4.pop_back();
         int_list4.pop_back();
         int_list4.pop_back();
@@ -1942,7 +1942,7 @@ void test_list_class() {
         test_counter += 1;
 
         // Removing non-existent iterator
-        List<String> str_list3{ "A" };
+        ListD<String> str_list3{ "A" };
         auto it3 = str_list3.end();
         exception_thrown = false;
         try { str_list3.erase(it3); }
@@ -1951,7 +1951,7 @@ void test_list_class() {
         test_counter += 1;
 
         // Removal followed by addition
-        List<int> int_list5{ 1 };
+        ListD<int> int_list5{ 1 };
         int_list5.pop_back();
         int_list5.push_back(2);
         assert(int_list5.size() == 1);               // Test 58
@@ -1959,7 +1959,7 @@ void test_list_class() {
         test_counter += 2;
 
         // Multiple removal/addition
-        List<std::string> str_list4;
+        ListD<std::string> str_list4;
         for (int i = 0; i < 10; i++) {
             str_list4.push_back("X");
             str_list4.pop_back();
@@ -1973,7 +1973,7 @@ void test_list_class() {
     // ======================================================
     {
         // Basic iterator operations for std::string
-        List<std::string> str_list{ "A", "B", "C" };
+        ListD<std::string> str_list{ "A", "B", "C" };
         auto it1 = str_list.begin();
         assert(*it1 == "A");                        // Test 61
         ++it1;
@@ -1981,14 +1981,14 @@ void test_list_class() {
         test_counter += 2;
 
         // Basic iterator operations for int
-        List<int> int_list{ 1, 2, 3 };
+        ListD<int> int_list{ 1, 2, 3 };
         auto it2 = int_list.begin();
         assert(*it2 == 1);                           // Test 63
         ++it2;
         assert(*it2 == 2);                           // Test 64
         test_counter += 2;
 
-        // List traversal
+        // ListD traversal
         auto it3 = str_list.begin();
         it3 += 2;
         assert(*it3 == "C");                         // Test 65
@@ -2005,7 +2005,7 @@ void test_list_class() {
         test_counter += 2;
 
         // Constant iterators
-        List<String> const_list{ "X", "Y", "Z" };
+        ListD<String> const_list{ "X", "Y", "Z" };
         auto cit = const_list.begin();
         assert(*cit == "X");                         // Test 69
         test_counter += 1;
@@ -2016,7 +2016,7 @@ void test_list_class() {
         test_counter += 1;
 
         // Iterator arithmetic
-        List<int> long_list{ 0, 1, 2, 3, 4, 5 };
+        ListD<int> long_list{ 0, 1, 2, 3, 4, 5 };
         auto it7 = long_list.begin() + 3;
         assert(*it7 == 3);                           // Test 71
         it7 = it7 - 2;
@@ -2024,7 +2024,7 @@ void test_list_class() {
         test_counter += 2;
 
         // Iterator invalidation check
-        List<std::string> str_list2{ "A", "B", "C" };
+        ListD<std::string> str_list2{ "A", "B", "C" };
         auto it8 = str_list2.begin() + 1;
         str_list2.erase(str_list2.begin());
         assert(*it8 == "B");                         // Test 73
@@ -2033,12 +2033,12 @@ void test_list_class() {
         test_counter += 2;
 
         // Iterators on empty list
-        List<int> empty_list;
+        ListD<int> empty_list;
         assert(empty_list.begin() == empty_list.end()); // Test 75
         test_counter += 1;
 
         // Reverse traversal
-        List<int> rev_list{ 1, 2, 3 };
+        ListD<int> rev_list{ 1, 2, 3 };
         auto rit = rev_list.end() - 1;
         assert(*rit == 3);                           // Test 76
         --rit;
@@ -2046,7 +2046,7 @@ void test_list_class() {
         test_counter += 2;
 
         // += and -= operators check
-        List<std::string> str_list3{ "A", "B", "C", "D" };
+        ListD<std::string> str_list3{ "A", "B", "C", "D" };
         auto it9 = str_list3.begin();
         it9 += 2;
         assert(*it9 == "C");                        // Test 78
@@ -2055,7 +2055,7 @@ void test_list_class() {
         test_counter += 2;
 
         // Edge cases for iterators
-        List<int> single_list{ 42 };
+        ListD<int> single_list{ 42 };
         auto it10 = single_list.begin();
         ++it10;
         assert(it10 == single_list.end());          // Test 80
@@ -2067,69 +2067,69 @@ void test_list_class() {
     // ======================================================
     {
         // Copy assignment for int
-        List<int> int_list1{ 1, 2, 3 };
-        List<int> int_list2;
+        ListD<int> int_list1{ 1, 2, 3 };
+        ListD<int> int_list2;
         int_list2 = int_list1;
         assert(int_list2.size() == 3);              // Test 81
         assert(int_list2[0] == 1);                 // Test 82
         test_counter += 2;
 
         // Copy assignment for std::string
-        List<String> str_list1{ "A", "B", "C" };
-        List<String> str_list2;
+        ListD<String> str_list1{ "A", "B", "C" };
+        ListD<String> str_list2;
         str_list2 = str_list1;
         assert(str_list2.size() == 3);              // Test 83
         assert(str_list2[2] == "C");               // Test 84
         test_counter += 2;
 
         // Move assignment for int
-        List<int> int_list3{ 4, 5, 6 };
-        List<int> int_list4;
+        ListD<int> int_list3{ 4, 5, 6 };
+        ListD<int> int_list4;
         int_list4 = std::move(int_list3);
         assert(int_list4.size() == 3);              // Test 85
         assert(int_list3.empty());                  // Test 86
         test_counter += 2;
 
         // Move assignment for std::string
-        List<std::string> str_list3{ "X", "Y", "Z" };
-        List<std::string> str_list4;
+        ListD<std::string> str_list3{ "X", "Y", "Z" };
+        ListD<std::string> str_list4;
         str_list4 = std::move(str_list3);
         assert(str_list4.size() == 3);              // Test 87
         assert(str_list3.empty());                  // Test 88
         test_counter += 2;
 
         // Self-assignment (copy)
-        List<int> int_list5{ 7, 8, 9 };
+        ListD<int> int_list5{ 7, 8, 9 };
         int_list5 = int_list5;
         assert(int_list5.size() == 3);              // Test 89
         assert(int_list5[1] == 8);                  // Test 90
         test_counter += 2;
 
         // Self-assignment (move)
-        List<std::string> str_list5{ "Self" };
+        ListD<std::string> str_list5{ "Self" };
         str_list5 = std::move(str_list5);
         assert(str_list5.size() == 1);              // Test 91
         assert(str_list5[0] == "Self");             // Test 92
         test_counter += 2;
 
         // Overlapping assignment
-        List<int> int_list6{ 10, 20 };
-        List<int> int_list7{ 30, 40 };
+        ListD<int> int_list6{ 10, 20 };
+        ListD<int> int_list7{ 30, 40 };
         int_list6 = int_list7;
         assert(int_list6.size() == 2);              // Test 93
         assert(int_list6[1] == 40);                 // Test 94
         test_counter += 2;
 
         // Assigning empty list
-        List<std::string> empty_list1;
-        List<std::string> empty_list2{ "A", "B" };
+        ListD<std::string> empty_list1;
+        ListD<std::string> empty_list2{ "A", "B" };
         empty_list2 = empty_list1;
         assert(empty_list2.empty());                // Test 95
         test_counter += 1;
 
         // Moving to non-empty list
-        List<int> int_list8{ 1, 2 };
-        List<int> int_list9{ 3, 4, 5 };
+        ListD<int> int_list8{ 1, 2 };
+        ListD<int> int_list9{ 3, 4, 5 };
         int_list8 = std::move(int_list9);
         assert(int_list8.size() == 3);              // Test 96
         assert(int_list9.empty());                  // Test 97
@@ -2141,14 +2141,14 @@ void test_list_class() {
     // ======================================================
     {
         // clear() method test
-        List<int> clear_list{ 1, 2, 3 };
+        ListD<int> clear_list{ 1, 2, 3 };
         clear_list.clear();
         assert(clear_list.empty());                 // Test 98
         assert(clear_list.size() == 0);             // Test 99
         test_counter += 2;
 
         // empty() method test
-        List<std::string> empty_test;
+        ListD<std::string> empty_test;
         assert(empty_test.empty());                 // Test 100
         test_counter += 1;
     }
@@ -2158,7 +2158,7 @@ void test_list_class() {
     // ======================================================
     {
         // Combined test: all operations
-        List<int> complex_list;
+        ListD<int> complex_list;
         assert(complex_list.empty());               // Test 101
         test_counter += 1;
 
@@ -2184,11 +2184,11 @@ void test_list_class() {
         assert(complex_list.size() == 2);           // Test 106
         test_counter += 1;
 
-        List<int> complex_copy = complex_list;
+        ListD<int> complex_copy = complex_list;
         assert(complex_copy.size() == 2);           // Test 107
         test_counter += 1;
 
-        List<int> complex_move = std::move(complex_copy);
+        ListD<int> complex_move = std::move(complex_copy);
         assert(complex_move.size() == 2);           // Test 108
         assert(complex_copy.empty());               // Test 109
         test_counter += 2;
@@ -2198,7 +2198,7 @@ void test_list_class() {
         test_counter += 1;
     }
 
-    std::cout << "\n=== All " << test_counter << " list tests passed! ===\n";
+    std::cout << "\n=== All " << test_counter << " ListD tests passed! ===\n";
     glob_counter += test_counter;
 }
 
@@ -2549,9 +2549,9 @@ void start_all_tests() {
     test_array_class();
     test_string_class();
     test_stack_class();
-    test_deque_class();
-    test_queue_class();
-    test_list_class();
+    test_dequeOn_class();
+    test_queueOn_class();
+    test_listD_class();
     test_avl_tree_class();
     std::cout << "\n\n=== " << glob_counter << " tests passed! ===" << std::endl;
 }

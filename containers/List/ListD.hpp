@@ -1,7 +1,7 @@
 /*
-*  List Documentation
+*  ListD Documentation
 *
-*  The List class is a doubly linked list implementation providing efficient insertion/deletion operations.
+*  The ListD class is a doubly linked list implementation providing efficient insertion/deletion operations.
 *  Supports bidirectional iterators with bounds checking and common list operations.
 *
 *  Key Features:
@@ -23,7 +23,7 @@
 
 
 template<typename T>
-class List {
+class ListD {
 private:
 	size_t _size;
 	struct Node {
@@ -42,8 +42,8 @@ private:
 	Node* _tail;
 public:
 	//Constructor and destructor
-	List() : _size(0), _head(nullptr), _tail(nullptr) {}
-	List(size_t count, const T& value) : _size(0) {
+	ListD() : _size(0), _head(nullptr), _tail(nullptr) {}
+	ListD(size_t count, const T& value) : _size(0) {
 		if (count > 0) {
 			_head = new Node(value);
 			Node* _current = _head;
@@ -57,8 +57,8 @@ public:
 			_tail = _current;
 		}
 	}
-	List(size_t count) : List(count,T()) {}
-	List(const List& other) : _size(other._size), _head(nullptr), _tail(nullptr) {
+	ListD(size_t count) : ListD(count,T()) {}
+	ListD(const ListD& other) : _size(other._size), _head(nullptr), _tail(nullptr) {
 		try {
 			if (other._size > 0) {
 				_head = new Node(other._head->_data);
@@ -88,12 +88,12 @@ public:
 			throw;
 		}
 	}
-	List(List&& other) noexcept : _size(other._size), _head(other._head), _tail(other._tail) {
+	ListD(ListD&& other) noexcept : _size(other._size), _head(other._head), _tail(other._tail) {
 		other._size = 0;
 		other._head = nullptr;
 		other._tail = nullptr;
 	}
-	List(std::initializer_list<T> init) : _size(0), _head(nullptr), _tail(nullptr) {
+	ListD(std::initializer_list<T> init) : _size(0), _head(nullptr), _tail(nullptr) {
 		try {
 			if (init.size() > 0) {
 				auto it = init.begin();
@@ -116,7 +116,7 @@ public:
 			throw;
 		}
 	}
-	~List() {
+	~ListD() {
 		clear();
 	}
 
@@ -125,12 +125,12 @@ public:
     class Iterator {
 	private:
 		Node* current;
-		List* parent_list;
+		ListD* parent_list;
 
 	public:
-		Iterator(Node* node, List* parent) : current(node), parent_list(parent) {}
+		Iterator(Node* node, ListD* parent) : current(node), parent_list(parent) {}
 
-		friend class List;
+		friend class ListD;
 
 		T& operator*() {
 			if (!current) {
@@ -504,17 +504,17 @@ public:
 		return current->_data;
 	}
 
-	List& operator=(const List& other) {
+	ListD& operator=(const ListD& other) {
 		if (this != &other) {
 			if (!empty()) {
 				clear();
 			}
-			*this = List(other);
+			*this = ListD(other);
 		}
 		return *this;
 	}
 
-	List& operator=(List&& other) {
+	ListD& operator=(ListD&& other) {
 		if (this != &other) {
 			if (!empty()) {
 				clear();
@@ -531,4 +531,3 @@ public:
 	}
 
 };
-
