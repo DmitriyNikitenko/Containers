@@ -1394,14 +1394,14 @@ void test_dequeOn_class() {
 
 
 void test_queueOn_class() {
-    std::cout << "\n=== Queue Class Test ===\n";
+    std::cout << "\n=== QueueOn Class Test ===\n";
     int test_counter = 0;
 
     // ======================================================
     // 1. Basic Operations
     // ======================================================
     {
-        Queue<String> q;
+        QueueOn<String> q;
         assert(q.empty());                     // Test 1
         ++test_counter;
 
@@ -1433,7 +1433,7 @@ void test_queueOn_class() {
     // 2. Initializer List
     // ======================================================
     {
-        Queue<String> q = { "One", "Two", "Three" };
+        QueueOn<String> q = { "One", "Two", "Three" };
         assert(q.size() == 3);                 // Test 13
         assert(q.front() == "One");            // Test 14
         assert(q.back() == "Three");           // Test 15
@@ -1448,12 +1448,12 @@ void test_queueOn_class() {
     // 3. Copy Semantics
     // ======================================================
     {
-        Queue<String> q1;
+        QueueOn<String> q1;
         q1.push("X");
         q1.push("Y");
 
         // Copy constructor
-        Queue<String> q2(q1);
+        QueueOn<String> q2(q1);
         assert(q2.size() == 2);                // Test 17
         assert(q2.front() == "X");             // Test 18
         assert(q2.back() == "Y");              // Test 19
@@ -1466,7 +1466,7 @@ void test_queueOn_class() {
         test_counter += 2;
 
         // Copy assignment
-        Queue<String> q3;
+        QueueOn<String> q3;
         q3 = q2;
         assert(q3.size() == 2);                // Test 22
         assert(q3.front() == "X");             // Test 23
@@ -1484,17 +1484,17 @@ void test_queueOn_class() {
     // ======================================================
     {
         // Move constructor
-        Queue<String> q1;
+        QueueOn<String> q1;
         q1.push("Move");
 
-        Queue<String> q2(std::move(q1));
+        QueueOn<String> q2(std::move(q1));
         assert(q2.size() == 1);                // Test 26
         assert(q2.front() == "Move");          // Test 27
         assert(q1.empty());                    // Test 28
         test_counter += 3;
 
         // Move assignment
-        Queue<String> q3;
+        QueueOn<String> q3;
         q3 = std::move(q2);
         assert(q3.size() == 1);                // Test 29
         assert(q3.front() == "Move");          // Test 30
@@ -1512,7 +1512,7 @@ void test_queueOn_class() {
     // 5. Capacity and Reservation
     // ======================================================
     {
-        Queue<std::string> q;
+        QueueOn<std::string> q;
         assert(q.size() == 0);                 // Test 34
         ++test_counter;
 
@@ -1531,7 +1531,7 @@ void test_queueOn_class() {
         test_counter += 2;
 
         // Manual reservation
-        Queue<std::string> q2;
+        QueueOn<std::string> q2;
         q2.reserve(100);
         for (int i = 0; i < 100; ++i) {
             q2.push(std::to_string(i));
@@ -1552,7 +1552,7 @@ void test_queueOn_class() {
     // 6. Exception Handling
     // ======================================================
     {
-        Queue<String> q;
+        QueueOn<String> q;
         bool caught = false;
 
         // front() on empty
@@ -1586,10 +1586,10 @@ void test_queueOn_class() {
     // 7. Complex Operations and FIFO Property
     // ======================================================
     {
-        Queue<std::string> q;
+        QueueOn<std::string> q;
         const int N = 1000;
 
-        // Fill the queue
+        // Fill the QueueOn
         for (int i = 0; i < N; ++i) {
             q.push(std::to_string(i));
         }
@@ -1604,7 +1604,7 @@ void test_queueOn_class() {
         test_counter += 1;
 
         // Interleaved push/pop using only queues
-        Queue<std::string> ref_queue;  // Reference queue for expected state
+        QueueOn<std::string> ref_queue;  // Reference queue for expected state
         int push_count = 0;
 
         for (int i = 0; i < 100; ++i) {
@@ -1646,10 +1646,10 @@ void test_queueOn_class() {
     // 8. Comparison Operators
     // ======================================================
     {
-        Queue<String> q1 = { "A", "B", "C" };
-        Queue<String> q2 = { "A", "B", "C" };
-        Queue<String> q3 = { "X", "Y", "Z" };
-        Queue<String> q4 = { "A", "B" };
+        QueueOn<String> q1 = { "A", "B", "C" };
+        QueueOn<String> q2 = { "A", "B", "C" };
+        QueueOn<String> q3 = { "X", "Y", "Z" };
+        QueueOn<String> q4 = { "A", "B" };
 
         // Equality
         assert(q1 == q2);                      // Test 52
@@ -1661,8 +1661,8 @@ void test_queueOn_class() {
         test_counter += 2;
 
         // Empty queues
-        Queue<String> q5;
-        Queue<String> q6;
+        QueueOn<String> q5;
+        QueueOn<String> q6;
         assert(q5 == q6);                      // Test 55
         ++test_counter;
 
@@ -1677,7 +1677,7 @@ void test_queueOn_class() {
     // ======================================================
     {
         // Empty strings
-        Queue<std::string> q1;
+        QueueOn<std::string> q1;
         q1.push("");
         q1.push("");
         assert(q1.size() == 2);                // Test 57
@@ -1691,13 +1691,13 @@ void test_queueOn_class() {
 
         // Long strings
         std::string long_str(1000, 'X');
-        Queue<std::string> q2;
+        QueueOn<std::string> q2;
         q2.push(long_str);
         assert(q2.front() == long_str);        // Test 61
         ++test_counter;
 
         // Mixed content
-        Queue<std::string> q3;
+        QueueOn<std::string> q3;
         q3.push("123");
         q3.push("");
         q3.push(" ");
@@ -1717,7 +1717,7 @@ void test_queueOn_class() {
     // 10. Stress Test
     // ======================================================
     {
-        Queue<std::string> q;
+        QueueOn<std::string> q;
         const int N = 10000;
 
         for (int i = 0; i < N; ++i) {
@@ -1736,7 +1736,7 @@ void test_queueOn_class() {
         ++test_counter;
     }
 
-    std::cout << "=== All " << test_counter << " queue tests passed! ===\n";
+    std::cout << "=== All " << test_counter << " QueueOn tests passed! ===\n";
     glob_counter += test_counter;
 }
 

@@ -1,7 +1,7 @@
 /*
-*  Queue Documentation
+*  QueueOn Documentation
 *
-*  The Queue class implements a First-In-First-Out (FIFO) container using a dynamic array.
+*  The QueueOn class implements a First-In-First-Out (FIFO) container using a dynamic array.
 *  Supports core queue operations with automatic resizing and exception-safe resource management.
 *
 *  Key Features:
@@ -33,26 +33,26 @@
 
 
 template<typename T>
-class Queue {
+class QueueOn {
 private:
 	size_t _size;
 	size_t _capacity;
 	T* _data;
 public:
 	//Constructor and destructor
-	Queue() : _size(0), _capacity(10), _data(new T[_capacity]) {}
-	Queue(size_t capacity) : _size(0), _capacity(capacity > 10 ? capacity : 10), _data(new T[_capacity]) {}
-	Queue(const Queue& other) : _size(other._size), _capacity(other._capacity), _data(new T[_capacity]) {
+	QueueOn() : _size(0), _capacity(10), _data(new T[_capacity]) {}
+	QueueOn(size_t capacity) : _size(0), _capacity(capacity > 10 ? capacity : 10), _data(new T[_capacity]) {}
+	QueueOn(const QueueOn& other) : _size(other._size), _capacity(other._capacity), _data(new T[_capacity]) {
 		for (size_t i = 0; i < _size;++i) {
 			_data[i] = other._data[i];
 		}
 	}
-	Queue(Queue&& other) noexcept : _size(other._size), _capacity(other._capacity), _data(other._data) {
+	QueueOn(QueueOn&& other) noexcept : _size(other._size), _capacity(other._capacity), _data(other._data) {
 		other._size = 0;
 		other._capacity = 10;
 		other._data = nullptr;
 	}
-	Queue(std::initializer_list<T> init) : _size(init.size()), _capacity(init.size() > 10 ? init.size() * 2 : 10), \
+	QueueOn(std::initializer_list<T> init) : _size(init.size()), _capacity(init.size() > 10 ? init.size() * 2 : 10), \
 		_data(new T[_capacity]) {
 
 		size_t i = 0;
@@ -67,7 +67,7 @@ public:
 			throw;
 		}
 	}
-	~Queue() {
+	~QueueOn() {
 		delete[] _data;
 	}
 
@@ -82,7 +82,7 @@ public:
 	}
 
 	void pop() {
-		if (empty()) { throw std::out_of_range("Queue is empty"); }
+		if (empty()) { throw std::out_of_range("QueueOn is empty"); }
 		
 		for (size_t i = 0; i < _size - 1; ++i) {
 			_data[i] = _data[i + 1];
@@ -91,22 +91,22 @@ public:
 	}
 
 	T& front() {
-		if (empty()) { throw std::out_of_range("Queue is empty"); }
+		if (empty()) { throw std::out_of_range("QueueOn is empty"); }
 		return _data[0];
 	}
 
 	const T& front() const {
-		if (empty()) { throw std::out_of_range("Queue is empty"); }
+		if (empty()) { throw std::out_of_range("QueueOn is empty"); }
 		return _data[0];
 	}
 
 	T& back() {
-		if (empty()) { throw std::out_of_range("Queue is empty"); }
+		if (empty()) { throw std::out_of_range("QueueOn is empty"); }
 		return _data[_size - 1];
 	}
 
 	const T& back() const {
-		if (empty()) { throw std::out_of_range("Queue is empty"); }
+		if (empty()) { throw std::out_of_range("QueueOn is empty"); }
 		return _data[_size - 1];
 	}
 
@@ -133,7 +133,7 @@ public:
 	}
 
 	//Operators
-	Queue& operator=(const Queue& other) {
+	QueueOn& operator=(const QueueOn& other) {
 		if (this != &other) {
 			_size = other._size;
 			_capacity = other._capacity;
@@ -147,7 +147,7 @@ public:
 		return *this;
 	}
 
-	Queue& operator=(Queue&& other) {
+	QueueOn& operator=(QueueOn&& other) {
 		if (this != &other) {
 			delete[] _data;
 
@@ -162,7 +162,7 @@ public:
 		return *this;
 	}
 
-	bool operator==(const Queue& other) {
+	bool operator==(const QueueOn& other) {
 		if (_size != other._size) { return false; }
 
 		for (size_t i = 0; i < _size; ++i) {
@@ -173,7 +173,7 @@ public:
 		return true;
 	}
 
-	bool operator!=(const Queue& other) {
+	bool operator!=(const QueueOn& other) {
 		return !(*this == other);
 	}
 };

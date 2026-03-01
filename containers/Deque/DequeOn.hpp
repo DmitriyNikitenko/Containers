@@ -1,7 +1,7 @@
 /*
-*  Deque Documentation
+*  DequeOn Documentation
 *
-*  The Deque class is a double-ended queue implementation using a dynamic circular buffer.
+*  The DequeOn class is a double-ended queue implementation using a dynamic circular buffer.
 *  Supports efficient insertion and deletion at both ends and provides random-access iterators.
 *
 *  Key Features:
@@ -26,7 +26,7 @@
 
 
 template<typename T>
-class Deque {
+class DequeOn {
 private:
 	size_t _size;
 	size_t _capacity;
@@ -36,15 +36,15 @@ private:
 
 	T* _data;
 public:
-	Deque() : _size(0), _capacity(10), front_index(0), back_index(0), _data(new T[_capacity]) {}
-	Deque(size_t capacity) : _size(0), _capacity(capacity), front_index(0), back_index(0), _data(new T[_capacity]) {}
-	Deque(const Deque& other) : _size(other._size), _capacity(other._capacity),
+	DequeOn() : _size(0), _capacity(10), front_index(0), back_index(0), _data(new T[_capacity]) {}
+	DequeOn(size_t capacity) : _size(0), _capacity(capacity), front_index(0), back_index(0), _data(new T[_capacity]) {}
+	DequeOn(const DequeOn& other) : _size(other._size), _capacity(other._capacity),
 		front_index(other.front_index), back_index(other.back_index), _data(new T[_capacity]) {
 		for (size_t i = front_index; i < _size;++i) {
 			_data[i] = other._data[i];
 		}
 	}
-	Deque(Deque&& other) noexcept : _size(other._size), _capacity(other._capacity),
+	DequeOn(DequeOn&& other) noexcept : _size(other._size), _capacity(other._capacity),
 		front_index(other.front_index), back_index(other.back_index), _data(other._data) {
 		other._size = 0;
 		other._capacity = 10;
@@ -52,7 +52,7 @@ public:
 		other.back_index = 0;
 		other._data = nullptr;
 	}
-	Deque(std::initializer_list<T> init) : _size(init.size()), _capacity(init.size() > 10 ? init.size() * 2 : 10),
+	DequeOn(std::initializer_list<T> init) : _size(init.size()), _capacity(init.size() > 10 ? init.size() * 2 : 10),
 		front_index(0), back_index(init.size() - 1), _data(new T[_capacity]) {
 
 		size_t i = 0;
@@ -67,7 +67,7 @@ public:
 			throw;
 		}
 	}
-	~Deque() {
+	~DequeOn() {
 		delete[] _data;
 	}
 
@@ -75,7 +75,7 @@ public:
 	//--------------------------------- I T E R A T O R -----------------------------------
 	class Iterator {
 	private:
-		Deque* _container;
+		DequeOn* _container;
 		T* _ptr;
 
 		size_t _get_logical_pos() const {
@@ -102,7 +102,7 @@ public:
 		}
 
 	public:
-		Iterator(T* ptr, Deque* container) : _ptr(ptr), _container(container) {}
+		Iterator(T* ptr, DequeOn* container) : _ptr(ptr), _container(container) {}
 
 		T& operator*() {
 			if (!_ptr || _ptr < _container->_data || _ptr >= _container->_data + _container->_capacity) {
@@ -330,28 +330,28 @@ public:
 
 	T& front() {
 		if (empty()) {
-			throw std::out_of_range("Deque is empty");
+			throw std::out_of_range("DequeOn is empty");
 		}
 		return _data[front_index];
 	}
 
 	const T& front() const {
 		if (empty()) {
-			throw std::out_of_range("Deque is empty");
+			throw std::out_of_range("DequeOn is empty");
 		}
 		return _data[front_index];
 	}
 
 	T& back() {
 		if (empty()) {
-			throw std::out_of_range("Deque is empty");
+			throw std::out_of_range("DequeOn is empty");
 		}
 		return _data[back_index];
 	}
 
 	const T& back() const {
 		if (empty()) {
-			throw std::out_of_range("Deque is empty");
+			throw std::out_of_range("DequeOn is empty");
 		}
 		return _data[back_index];
 	}
@@ -397,7 +397,7 @@ public:
 
 	void pop_back() {
 		if (empty()) {
-			throw std::out_of_range("pop_back on empty deque");
+			throw std::out_of_range("pop_back on empty DequeOn");
 		}
 
 		_data[back_index].~T();
@@ -414,7 +414,7 @@ public:
 
 	void pop_front() {
 		if (empty()) {
-			throw std::out_of_range("popfront_index on empty deque");
+			throw std::out_of_range("popfront_index on empty DequeOn");
 		}
 
 		_data[front_index].~T();
@@ -547,7 +547,7 @@ public:
 	}
 
 	//----------------------------------------- O P E R A T O R S ------------------------------------------------
-	Deque& operator=(const Deque& other) {
+	DequeOn& operator=(const DequeOn& other) {
 		if (this != &other) {
 			delete[] _data;
 
@@ -564,7 +564,7 @@ public:
 		return *this;
 	}
 
-	Deque& operator=(Deque&& other) noexcept {
+	DequeOn& operator=(DequeOn&& other) noexcept {
 		if (this != &other) {
 			delete[] _data;
 
