@@ -105,14 +105,12 @@ public:
     size_t capacity() const {
         return _capacity;
     }
-
     void clear() {
         for (size_t i = 0; i < _size; ++i) {
             _data[i].~T();
         }
         _size = 0;
     }
-
     void push(const T& element) {
         if (_size + 1 >= _capacity) {
             reserve( (_size == 0) ? 10 : _size * 2 );
@@ -121,38 +119,31 @@ public:
         new (&_data[_size]) T(element);
         ++_size;
     }
-
     void pop() {
         if (empty()) { throw std::out_of_range("Stack is empty"); }
         _data[_size - 1].~T();
         --_size;
     }
-
     const T& top() const {
         if (empty()) { throw std::out_of_range("Stack is empty"); }
         return _data[_size - 1];
     }
-
     T& top() {
         if (empty()) { throw std::out_of_range("Stack is empty"); }
         return _data[_size - 1];
     }
-
     size_t size() const {
         return _size;
     }
-
     bool empty() const {
         return _size == 0;
     }
-
     void swap(Stack& other) {
         std::swap(_size, other._size);
         std::swap(_capacity, other._capacity);
-	memcpy(_data, other._data, other.size() * sizeof(T));
+	    memcpy(_data, other._data, other.size() * sizeof(T));
         std::swap(_data, other._data);
     }
-    
     void reserve(size_t new_capacity) {
         if (new_capacity <= _capacity) { return; }
 
@@ -169,7 +160,6 @@ public:
     }
 
     //Operators
-
     Stack& operator=(const Stack& other) {
         if (this != &other) {
             Stack tmp(other);
@@ -177,7 +167,6 @@ public:
         }
         return *this;
     }
-
     Stack& operator=(Stack&& other) noexcept {
         if (this != &other) {
             if (_data) {
@@ -197,7 +186,6 @@ public:
         }
         return *this;
     }
-
     bool operator==(const Stack& other) const {
         if (_size != other._size) { return false; }
 
@@ -208,7 +196,6 @@ public:
         }
         return true;
     }
-
     bool operator!=(const Stack& other) const {
         return !(*this == other);
     }
