@@ -270,7 +270,20 @@ public:
 
         _size -= difference;
     }
+    void erase(size_t index){
+        if(index > _size){
+            throw std::out_of_range("Index out of bounds");
+        }
+        //delete current object
+        if (!is_trivial_T) {
+            _data[index].~T();
+        }
 
+        for (size_t i = index; i < _size - 1; ++i) {
+            _data[i] = std::move(_data[i + 1]);
+        }
+        --_size;
+    }
     void erase(const Iterator& position) {
         if (position < begin() || position >= end()) {
             throw std::out_of_range("Iterator out of bounds");
