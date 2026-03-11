@@ -329,7 +329,40 @@ public:
         _data[pos_index] = element;
         ++_size;
     }
+    void insert(T& element, Iterator position) {
+        if (position < begin() || position > end()) {
+            throw std::out_of_range("Iterator out of bounds");
+        }
 
+        if (_size + 1 >= _capacity) {
+            reserve(_size == 0 ? 10: _capacity * 2);
+        }
+
+        size_t pos_index = position - begin();
+        for (size_t i = _size; i > pos_index; --i) {
+            _data[i] = std::move(_data[i - 1]);
+        }
+
+        _data[pos_index] = element;
+        ++_size;
+    }
+    void insert(T& element, size_t position){
+        if (position > _size) {
+            throw std::out_of_range("Index out of bounds");
+        }
+
+        if (_size + 1 >= _capacity) {
+            reserve(_size == 0 ? 10: _capacity * 2);
+        }
+
+        size_t pos_index = position;
+        for (size_t i = _size; i > pos_index; --i) {
+            _data[i] = std::move(_data[i - 1]);
+        }
+
+        _data[pos_index] = element;
+        ++_size;
+    }
     void pop_back() {
         if (!empty()) {
             if (!is_trivial_T) {
