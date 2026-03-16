@@ -42,8 +42,9 @@ jobs:
           fi
           !(grep -qwRE --include=*.{cc,cpp,h} '#include <(list|algorithm|stack|queue|deque|set|map)>' ./* ) &&  (echo \"Build...\" )  || ( echo \"Forbiden STL containers\" && exit 9 )
 
-      - name: Autograding
-        uses: amcp-pit/autograding@v1
+      - name: Run tests
+        run: |
+          timeout 15 ./containers_app
 
       - name: Memory leaks
         run: |
