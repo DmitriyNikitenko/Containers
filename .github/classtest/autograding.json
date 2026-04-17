@@ -1,0 +1,14 @@
+{
+  "tests": [
+    {
+      "name": "Test 1",
+      "setup": "",
+      "run": "timeout 15 ./containers_app",
+      "input": "",
+      "output": "",
+      "comparison": "include",
+      "timeout": 15,
+      "points": 1
+    }
+  ]
+}
