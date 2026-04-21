@@ -33,6 +33,7 @@
 *    - Ensure type T fulfills required operations (see template assumptions)
 */
 #pragma once 
+#include <cstddef>
 #include <stdexcept>
 
 template<typename T, typename Compare = std::less<T>>
@@ -244,13 +245,13 @@ private:
 	}
 
 	//Function for copy constructor and copy =
-	Node* copyThree(Node* node) {
+	Node* copyTree(Node* node) {
 		if (!node) {
 			return nullptr;
 		}
 		Node* newNode = new Node(*node);
-		newNode->left = copyThree(node->left);
-		newNode->right = copyThree(node->right);
+		newNode->left = copyTree(node->left);
+		newNode->right = copyTree(node->right);
 		return newNode;
 	}
 	
@@ -369,7 +370,7 @@ public:
 	}
 	AVLtree(size_t count) : AVLtree(count, T()) {}
 	AVLtree(const AVLtree& other) {
-		root = copyThree(other.root);
+		root = copyTree(other.root);
 		count = other.count;
 	}
 	AVLtree(AVLtree&& other) {
@@ -384,14 +385,14 @@ public:
 
 	//--------------------------------- I T E R A T O R -----------------------------------
 	class Iterator {
-	private:
+		private:
 		Node* current;
-		AVLtree* parent_three;
+		AVLtree* parent_tree;
 
-	public:
+		public:
 		Iterator() = delete;
-		Iterator(Node* _current, AVLtree* _parent_three) : current(_current), parent_three(_parent_three) {}
-		Iterator(const Iterator& other) : current(other.current), parent_three(other.parent_three) {}
+		Iterator(Node* _current, AVLtree* _parent_tree) : current(_current), parent_tree(_parent_tree) {}
+		Iterator(const Iterator& other) : current(other.current), parent_tree(other.parent_tree) {}
 
 		void is_valid() {
 			if (!current) {
@@ -475,12 +476,14 @@ public:
 			for (size_t i = 0; i < n; ++i) {
 				++(*this);
 			}
+			return *this;
 		}
 
 		Iterator& operator-=(size_t n) {
 			for (size_t i = 0; i < n; ++i) {
 				--(*this);
 			}
+			return *this;
 		}
 
 		Iterator operator+(size_t n) const {
@@ -655,17 +658,23 @@ public:
 	//--------------------------------- O P E A T O R S -------------------------------------
 
 	AVLtree& operator=(const AVLtree& other) {
-		clear();
-		root = copyThree(other.root);
-		count = other.count;
+		if (this != &other) {
+			clear();
+			root = copyTree(other.root);
+			count = other.count;
+		}
+		return *this;
 	}
 
 	AVLtree& operator=(AVLtree&& other) {
-		clear();
-		root = other.root;
-		count = other.count;
-		other.root = nullptr;
-		other.count = 0;
+		if (this != &other) {
+			clear();
+			root = other.root;
+			count = other.count;
+			other.root = nullptr;
+			other.count = 0;
+		}
+		return *this;
 	}
 
 };
