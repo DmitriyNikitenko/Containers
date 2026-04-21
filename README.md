@@ -1,11 +1,11 @@
-# MyContainers 🗃️
+# MyContainers 
 
 **MyContainers** is a collection of C++ data structure implementations designed for educational purposes.  
 The project focuses on **code transparency**, **implementation details**, and **learning examples** to help developers understand the inner mechanics of popular containers.
 
 ---
 
-## 🌟 Key Features
+##  Key Features
 
 - **Simplicity and Readability**: Code is written with minimal optimizations to emphasize structural logic.
 - **Comprehensive Documentation**: Each container includes comments explaining key algorithms.
@@ -14,7 +14,7 @@ The project focuses on **code transparency**, **implementation details**, and **
 
 ---
 
-## 📦 Container List
+##  Container List
 
 | Container                | Description                                          | Status        |
 |--------------------------|-----------------------------------------------------|---------------|
