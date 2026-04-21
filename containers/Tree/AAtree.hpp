@@ -14,10 +14,10 @@ private:
         Node* right;
 
         Node() : level(1), left(nullptr), right(nullptr) {}
-        Node(const T& _value, Node* _left = nullptr, Node* _right = nullptr) :
-			value(_value), left(_left), right(_right), level(1) {}
+        Node(const T& _value, Node* _left = nullptr, Node* _right = nullptr)
+            : value(_value), level(1), left(_left), right(_right) {}
         Node(const Node& node) :
-			value(node.value), left(node.left), right(node.right), level(node.level) {}
+			value(node.value),level(node.level), left(node.left), right(node.right) {}
 		~Node() = default;
 
         bool isLeaf() const {
@@ -154,11 +154,22 @@ private:
 
 public:
     //Constructor and destructor
-    AAtree();
-    AAtree(size_t _count, const T& value);
-    AAtree(size_t count);
-    AAtree(const AAtree& other);
-    AAtree(AAtree&& other);
+    AAtree() = default;
+	AAtree(size_t _count, const T& value) {
+		while (count < _count) {
+			insert(value);
+		}
+	}
+    AAtree(const AAtree& other) {
+        root = copyTree(other.root);
+        count = other.count;
+    }
+    AAtree(AAtree&& other){
+        root = other.root;
+        other.root = nullptr;
+        count = other.count;
+        other.count = 0;
+    }
     ~AAtree(){
         clear(root);
     }
