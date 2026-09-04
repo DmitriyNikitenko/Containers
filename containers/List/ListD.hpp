@@ -17,7 +17,6 @@
 *    - Not thread-safe for concurrent access
 *    - Uses deep copying for copy operations
 */
-#pragma once 
 #include <stdexcept>
 #include <initializer_list>
 
@@ -250,6 +249,26 @@ public:
     //-------------------------------------------------------------------------------------
 
 
+	T& front() {
+		if (empty()) { throw std::out_of_range("ListD is empty"); }
+		return _head->_data;
+	}
+	
+	const T& front() const {
+		if (empty()) { throw std::out_of_range("ListD is empty"); }
+		return _head->_data;
+	}
+
+	T& back() {
+		if (empty()) { throw std::out_of_range("ListD is empty"); }
+		return _tail->_data;
+	}
+
+	const T& back() const {
+		if (empty()) { throw std::out_of_range("ListD is empty"); }
+		return _tail->_data;
+	}
+
 	//Adding elements:
 
 	void push_back(const T& value) {
@@ -402,16 +421,112 @@ public:
 		Node* remove_node = position.current;
 		Node* next_node = position.current->_next;
 		Node* prev_node = position.current->_prev;
-		if (next_node) {
-			next_node->_prev = prev_node;
+		if(!next_node){
+			pop_back();
+			return Iterator(prev_node, this);
 		}
-		else {
-			_tail = prev_node;
+		if(!prev_node){
+			pop_front();
+			return Iterator(next_node, this);
 		}
+		
+		next_node->_prev = prev_node;
 		prev_node->_next = next_node;
 		delete remove_node;
 		--_size;
 		return Iterator(next_node, position.parent_list);
+	}
+
+	void erase(size_t position){
+		if (empty()) {
+			throw std::runtime_error("Remove item from empty list");
+		}
+
+		if(position >= _size){
+			throw std::runtime_error("Out of bounds");
+		}
+		if(position == _size - 1){
+			pop_back();
+			return;
+		}
+		Node* remove_node = _head;
+		for(size_t i = 0; i < position; ++i){
+			if(remove_node->_next){
+				remove_node = remove_node->_next;
+			}
+		}
+
+		if(remove_node == nullptr){
+			return;
+		}
+
+		Node* next_node = remove_node->_next;
+		Node* prev_node = remove_node->_prev;
+		if(!next_node){
+			pop_back();
+			return;
+		}
+		if(!prev_node){
+			pop_front();
+			return;
+		}
+		next_node->_prev = prev_node;
+		prev_node->_next = next_node;
+		delete remove_node;
+		--_size;
+	}
+
+	void erase(const T& value){
+		Node* remove_node = _head;
+		for(size_t i = 0; i < _size; ++i){
+			if(remove_node->_data == value){
+				Node* next_node = remove_node->_next;
+				Node* prev_node = remove_node->_prev;
+				if(!next_node){
+					pop_back();
+					return;
+				}
+				if(!prev_node){
+					pop_front();
+					return;
+				}
+				next_node->_prev = prev_node;
+				prev_node->_next = next_node;
+				delete remove_node;
+				--_size;
+				return;
+			}
+			if(remove_node->_next != nullptr){
+				remove_node = remove_node->_next;
+			}
+		}
+	}
+
+	void eraseAll(const T& value){
+		Node* remove_node = _head;
+		Node* next_node;
+		Node* prev_node;
+		for(size_t i = 0; i < _size; ++i){
+			if(remove_node->_data == value){
+				next_node = remove_node->_next;
+				prev_node = remove_node->_prev;
+				if(!next_node){
+					pop_back();
+					continue;
+				}
+				if(!prev_node){
+					pop_front();
+					continue;
+				}
+				next_node->_prev = prev_node;
+				prev_node->_next = next_node;
+				delete remove_node;
+				--_size;
+			}
+			if(remove_node->_next != nullptr){
+				remove_node = remove_node->_next;
+			}
+		}
 	}
 
 	void clear() {
@@ -488,6 +603,32 @@ public:
 			--reverse_position;
 			++counter;
 		}
+	}
+
+	Iterator findIt(const T& value) {
+		Iterator cur = begin();
+		for(size_t i = 0; i < _size; ++i){
+			if(cur.current->_data == value){
+				return cur;
+			}
+			if(cur.current->_next != nullptr){
+				++cur;
+			}
+		}
+		return end();
+	}
+
+	size_t find(const T& value) const {
+		Node* current = _head;
+		for(size_t i = 0; i < _size; ++i){
+			if(current->_data == value){
+				return i;
+			}
+			if(current->_next != nullptr){
+				current = current->_next;
+			}
+		}
+		return static_cast<size_t>(-1);
 	}
 
 	//----------------------------------------- O P E R A T O R S ------------------------------------------------
