@@ -1,7 +1,7 @@
 /*
-*  List Documentation
+*  ListD Documentation
 *
-*  The List class is a doubly linked list implementation providing efficient insertion/deletion operations.
+*  The ListD class is a doubly linked list implementation providing efficient insertion/deletion operations.
 *  Supports bidirectional iterators with bounds checking and common list operations.
 *
 *  Key Features:
@@ -17,13 +17,12 @@
 *    - Not thread-safe for concurrent access
 *    - Uses deep copying for copy operations
 */
-#pragma once 
 #include <stdexcept>
 #include <initializer_list>
 
 
 template<typename T>
-class List {
+class ListD {
 private:
 	size_t _size;
 	struct Node {
@@ -42,8 +41,8 @@ private:
 	Node* _tail;
 public:
 	//Constructor and destructor
-	List() : _size(0), _head(nullptr), _tail(nullptr) {}
-	List(size_t count, const T& value) : _size(0) {
+	ListD() : _size(0), _head(nullptr), _tail(nullptr) {}
+	ListD(size_t count, const T& value) : _size(0) {
 		if (count > 0) {
 			_head = new Node(value);
 			Node* _current = _head;
@@ -57,8 +56,8 @@ public:
 			_tail = _current;
 		}
 	}
-	List(size_t count) : List(count,T()) {}
-	List(const List& other) : _size(other._size), _head(nullptr), _tail(nullptr) {
+	ListD(size_t count) : ListD(count,T()) {}
+	ListD(const ListD& other) : _size(other._size), _head(nullptr), _tail(nullptr) {
 		try {
 			if (other._size > 0) {
 				_head = new Node(other._head->_data);
@@ -88,12 +87,12 @@ public:
 			throw;
 		}
 	}
-	List(List&& other) noexcept : _size(other._size), _head(other._head), _tail(other._tail) {
+	ListD(ListD&& other) noexcept : _size(other._size), _head(other._head), _tail(other._tail) {
 		other._size = 0;
 		other._head = nullptr;
 		other._tail = nullptr;
 	}
-	List(std::initializer_list<T> init) : _size(0), _head(nullptr), _tail(nullptr) {
+	ListD(std::initializer_list<T> init) : _size(0), _head(nullptr), _tail(nullptr) {
 		try {
 			if (init.size() > 0) {
 				auto it = init.begin();
@@ -116,7 +115,7 @@ public:
 			throw;
 		}
 	}
-	~List() {
+	~ListD() {
 		clear();
 	}
 
@@ -125,12 +124,12 @@ public:
     class Iterator {
 	private:
 		Node* current;
-		List* parent_list;
+		ListD* parent_list;
 
 	public:
-		Iterator(Node* node, List* parent) : current(node), parent_list(parent) {}
+		Iterator(Node* node, ListD* parent) : current(node), parent_list(parent) {}
 
-		friend class List;
+		friend class ListD;
 
 		T& operator*() {
 			if (!current) {
@@ -249,6 +248,26 @@ public:
 
     //-------------------------------------------------------------------------------------
 
+
+	T& front() {
+		if (empty()) { throw std::out_of_range("ListD is empty"); }
+		return _head->_data;
+	}
+	
+	const T& front() const {
+		if (empty()) { throw std::out_of_range("ListD is empty"); }
+		return _head->_data;
+	}
+
+	T& back() {
+		if (empty()) { throw std::out_of_range("ListD is empty"); }
+		return _tail->_data;
+	}
+
+	const T& back() const {
+		if (empty()) { throw std::out_of_range("ListD is empty"); }
+		return _tail->_data;
+	}
 
 	//Adding elements:
 
@@ -402,16 +421,112 @@ public:
 		Node* remove_node = position.current;
 		Node* next_node = position.current->_next;
 		Node* prev_node = position.current->_prev;
-		if (next_node) {
-			next_node->_prev = prev_node;
+		if(!next_node){
+			pop_back();
+			return Iterator(prev_node, this);
 		}
-		else {
-			_tail = prev_node;
+		if(!prev_node){
+			pop_front();
+			return Iterator(next_node, this);
 		}
+		
+		next_node->_prev = prev_node;
 		prev_node->_next = next_node;
 		delete remove_node;
 		--_size;
 		return Iterator(next_node, position.parent_list);
+	}
+
+	void erase(size_t position){
+		if (empty()) {
+			throw std::runtime_error("Remove item from empty list");
+		}
+
+		if(position >= _size){
+			throw std::runtime_error("Out of bounds");
+		}
+		if(position == _size - 1){
+			pop_back();
+			return;
+		}
+		Node* remove_node = _head;
+		for(size_t i = 0; i < position; ++i){
+			if(remove_node->_next){
+				remove_node = remove_node->_next;
+			}
+		}
+
+		if(remove_node == nullptr){
+			return;
+		}
+
+		Node* next_node = remove_node->_next;
+		Node* prev_node = remove_node->_prev;
+		if(!next_node){
+			pop_back();
+			return;
+		}
+		if(!prev_node){
+			pop_front();
+			return;
+		}
+		next_node->_prev = prev_node;
+		prev_node->_next = next_node;
+		delete remove_node;
+		--_size;
+	}
+
+	void erase(const T& value){
+		Node* remove_node = _head;
+		for(size_t i = 0; i < _size; ++i){
+			if(remove_node->_data == value){
+				Node* next_node = remove_node->_next;
+				Node* prev_node = remove_node->_prev;
+				if(!next_node){
+					pop_back();
+					return;
+				}
+				if(!prev_node){
+					pop_front();
+					return;
+				}
+				next_node->_prev = prev_node;
+				prev_node->_next = next_node;
+				delete remove_node;
+				--_size;
+				return;
+			}
+			if(remove_node->_next != nullptr){
+				remove_node = remove_node->_next;
+			}
+		}
+	}
+
+	void eraseAll(const T& value){
+		Node* remove_node = _head;
+		Node* next_node;
+		Node* prev_node;
+		for(size_t i = 0; i < _size; ++i){
+			if(remove_node->_data == value){
+				next_node = remove_node->_next;
+				prev_node = remove_node->_prev;
+				if(!next_node){
+					pop_back();
+					continue;
+				}
+				if(!prev_node){
+					pop_front();
+					continue;
+				}
+				next_node->_prev = prev_node;
+				prev_node->_next = next_node;
+				delete remove_node;
+				--_size;
+			}
+			if(remove_node->_next != nullptr){
+				remove_node = remove_node->_next;
+			}
+		}
 	}
 
 	void clear() {
@@ -490,6 +605,32 @@ public:
 		}
 	}
 
+	Iterator findIt(const T& value) {
+		Iterator cur = begin();
+		for(size_t i = 0; i < _size; ++i){
+			if(cur.current->_data == value){
+				return cur;
+			}
+			if(cur.current->_next != nullptr){
+				++cur;
+			}
+		}
+		return end();
+	}
+
+	size_t find(const T& value) const {
+		Node* current = _head;
+		for(size_t i = 0; i < _size; ++i){
+			if(current->_data == value){
+				return i;
+			}
+			if(current->_next != nullptr){
+				current = current->_next;
+			}
+		}
+		return static_cast<size_t>(-1);
+	}
+
 	//----------------------------------------- O P E R A T O R S ------------------------------------------------
 	T& operator[](size_t n) {
 		if (n >= _size) {
@@ -504,17 +645,17 @@ public:
 		return current->_data;
 	}
 
-	List& operator=(const List& other) {
+	ListD& operator=(const ListD& other) {
 		if (this != &other) {
 			if (!empty()) {
 				clear();
 			}
-			*this = List(other);
+			*this = ListD(other);
 		}
 		return *this;
 	}
 
-	List& operator=(List&& other) {
+	ListD& operator=(ListD&& other) {
 		if (this != &other) {
 			if (!empty()) {
 				clear();
@@ -531,4 +672,3 @@ public:
 	}
 
 };
-

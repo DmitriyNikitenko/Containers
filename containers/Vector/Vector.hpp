@@ -270,7 +270,20 @@ public:
 
         _size -= difference;
     }
+    void erase(size_t index){
+        if(index > _size){
+            throw std::out_of_range("Index out of bounds");
+        }
+        //delete current object
+        if (!is_trivial_T) {
+            _data[index].~T();
+        }
 
+        for (size_t i = index; i < _size - 1; ++i) {
+            _data[i] = std::move(_data[i + 1]);
+        }
+        --_size;
+    }
     void erase(const Iterator& position) {
         if (position < begin() || position >= end()) {
             throw std::out_of_range("Iterator out of bounds");
@@ -316,7 +329,40 @@ public:
         _data[pos_index] = element;
         ++_size;
     }
+    void insert(T& element, Iterator position) {
+        if (position < begin() || position > end()) {
+            throw std::out_of_range("Iterator out of bounds");
+        }
 
+        if (_size + 1 >= _capacity) {
+            reserve(_size == 0 ? 10: _capacity * 2);
+        }
+
+        size_t pos_index = position - begin();
+        for (size_t i = _size; i > pos_index; --i) {
+            _data[i] = std::move(_data[i - 1]);
+        }
+
+        _data[pos_index] = element;
+        ++_size;
+    }
+    void insert(T& element, size_t position){
+        if (position > _size) {
+            throw std::out_of_range("Index out of bounds");
+        }
+
+        if (_size + 1 >= _capacity) {
+            reserve(_size == 0 ? 10: _capacity * 2);
+        }
+
+        size_t pos_index = position;
+        for (size_t i = _size; i > pos_index; --i) {
+            _data[i] = std::move(_data[i - 1]);
+        }
+
+        _data[pos_index] = element;
+        ++_size;
+    }
     void pop_back() {
         if (!empty()) {
             if (!is_trivial_T) {
@@ -425,6 +471,22 @@ public:
         }
 
         return *this;
+    }
+
+    bool operator==(const Vector& other) const {
+        if (_size != other._size) {
+            return false;
+        }
+        for (size_t i = 0; i < _size; ++i) {
+            if (_data[i] != other._data[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    bool operator!=(const Vector& other) const {
+        return !(*this == other);
     }
 
 };

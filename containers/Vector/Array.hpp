@@ -23,7 +23,7 @@
 #pragma once
 #include <stdexcept>
 #include <initializer_list>
-#include "String.hpp"
+#include "../String/String.hpp"
 
 template <typename T,const size_t N>
 class Array {
