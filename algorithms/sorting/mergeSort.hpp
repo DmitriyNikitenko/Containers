@@ -25,39 +25,43 @@
 #pragma once
 #include "../../containers/Vector/Vector.hpp"
 
+
+namespace detail{
+    template<typename T>
+    void merge(Vector<T>& v, size_t begin, size_t mid, size_t end) {
+        Vector<T> temp;
+
+        size_t left = begin;
+        size_t right = mid;
+
+        while (left < mid && right < end) {
+            if (v[left] < v[right]) {
+                temp.emplace_back(v[left++]);
+            } else {
+                temp.emplace_back(v[right++]);
+            }
+        }
+
+        while (left < mid) temp.emplace_back(v[left++]);
+        while (right < end) temp.emplace_back(v[right++]);
+
+        for (size_t i = 0; i < temp.size(); ++i) {
+            v[begin + i] = temp[i];
+        }
+    }
+}
+
+
 //Recursive mergesort
 template<typename T>
 void mergeSortR(Vector<T>& v, size_t begin, size_t end) {
     if (end - begin <= 1) return;
 
     size_t mid = begin + (end - begin) / 2;
-    mergesortR(v, begin, mid);
-    mergesortR(v, mid, end);
+    mergeSortR(v, begin, mid);
+    mergeSortR(v, mid, end);
 
-    merge(v, begin, mid, end);
-}
-
-template<typename T>
-void merge(Vector<T>& v, size_t begin, size_t mid, size_t end) {
-    Vector<T> temp;
-
-    size_t left = begin;
-    size_t right = mid;
-
-    while (left < mid && right < end) {
-        if (v[left] < v[right]) {
-            temp.emplace_back(v[left++]);
-        } else {
-            temp.emplace_back(v[right++]);
-        }
-    }
-
-    while (left < mid) temp.emplace_back(v[left++]);
-    while (right < end) temp.emplace_back(v[right++]);
-
-    for (size_t i = 0; i < temp.size(); ++i) {
-        v[begin + i] = temp[i];
-    }
+    detail::merge(v, begin, mid, end);
 }
 
 //Iterative mergesort
@@ -70,7 +74,7 @@ void mergeSortI(Vector<T>& v) {
             size_t mid = std::min(left + size, n);
             size_t right = std::min(left + 2 * size, n);
 
-            merge(v, left, mid, right);
+            detail::merge(v, left, mid, right);
         }
     }
 }

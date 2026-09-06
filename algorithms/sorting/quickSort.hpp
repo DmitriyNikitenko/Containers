@@ -1,9 +1,9 @@
-
 #pragma once
 #include <utility>
 #include <random>
 #include "../../containers/Stack/Stack.hpp"
 #include "../../containers/Vector/Vector.hpp"
+
 
 namespace detail {
     inline int getRandomPivot(int low, int high) {
@@ -41,7 +41,12 @@ void quickSortI(Vector<T>& vec){
     stack.push({0, static_cast<int>(vec.size()) - 1});
 
     while (!stack.empty()) {
-        auto [low, high] = stack.pop();
+        std::pair<int, int> range = stack.top();
+        stack.pop();
+
+        int low = range.first;
+        int high = range.second;
+
         if (low < high) {
             int pivotIndex = detail::getRandomPivot(low, high);
             std::swap(vec[pivotIndex], vec[high]);
@@ -55,8 +60,8 @@ void quickSortI(Vector<T>& vec){
             }
             std::swap(vec[i + 1], vec[high]);
             int pivotPos = i + 1;
-            stack.push({low, pivotPos - 1});
-            stack.push({pivotPos + 1, high});
+            stack.push(std::pair<int, int>{low, pivotPos - 1});
+            stack.push(std::pair<int, int>{pivotPos + 1, high});
         }
     }
 }

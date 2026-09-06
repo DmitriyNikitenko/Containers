@@ -154,11 +154,11 @@ private:
 public:
     //Constructor and destructor
     AAtree() = default;
-	AAtree(size_t _count, const T& value) {
-		while (count < _count) {
-			insert(value);
-		}
-	}
+    AAtree(size_t _count, const T& value) {
+        if (_count > 0) {
+            insert(value);
+        }
+    }
     AAtree(const AAtree& other) {
         root = copyTree(other.root);
         count = other.count;
@@ -230,19 +230,21 @@ public:
         
                 // Increment/Decrement ------------------------------------------------
                 Iterator& operator++() {
-                    if (stack.empty()) {
-                        current = nullptr;
+                    if (!current) {
                         return *this;
                     }
-            
-                    Node* node = stack.top();
-                    stack.pop();
 
-                    if (node->right) {
-                        pushLeft(node->right);
+                    if (current->right) {
+                        pushLeft(current->right);
                     }
-            
-                    current = stack.empty() ? nullptr : stack.top();
+
+                    if (stack.empty()) {
+                        current = nullptr;
+                    } else {
+                        current = stack.top();
+                        stack.pop();
+                    }
+
                     return *this;
                 }
         

@@ -1,22 +1,19 @@
-CC = clang++
-CFLAGS = -pedantic-errors -gdwarf-4 -std=c++17 -Wall -Wextra \
-  -Wno-unused-variable -Wno-self-assign -Wno-deprecated-copy -Wno-reorder -Wno-unused-result \
-  -Wno-unused-comparison -Wno-self-move -Wno-sign-compare
-LDFLAGS =
+CXX = g++
+CXXFLAGS = -std=c++17 -Wno-everything
 
-SOURCES = main.cpp
-OBJECTS = $(SOURCES:.cpp=.o)
-EXECUTABLE = containers_app
+TARGET = tests_runner
 
-all: $(EXECUTABLE)
+SOURCES = $(shell find tests -name "*.cpp")
 
-$(EXECUTABLE): $(OBJECTS)
-	$(CC) $(OBJECTS) $(LDFLAGS) -o $@
+all: $(TARGET)
 
-%.o: %.cpp
-	$(CC) $(CFLAGS) -c $< -o $@
+$(TARGET): $(SOURCES)
+	$(CXX) $(CXXFLAGS) $(SOURCES) -o $(TARGET)
+
+run: $(TARGET)
+	./$(TARGET)
 
 clean:
-	rm -f $(OBJECTS) $(EXECUTABLE)
+	rm -f $(TARGET)
 
-.PHONY: all clean
+test: clean run

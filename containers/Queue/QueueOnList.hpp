@@ -6,6 +6,7 @@
 #pragma once
 #include <stdexcept>
 #include <initializer_list>
+#include <utility>
 #include "../List/ListD.hpp"
 
 
@@ -38,7 +39,12 @@ public:
 	}
 
 	void pop() {
-        _list.pop_front();
+		if (empty()) {
+			return;
+		}
+
+		_list.pop_front();
+		--_size;
 	}
 
 	T& front() {
@@ -70,47 +76,44 @@ public:
 	}
 
 	//Operators
-	QueueOn& operator=(const QueueOn& other) {
+	QueueOnList& operator=(const QueueOnList& other) {
 		if (this != &other) {
 			_size = other._size;
 			_capacity = other._capacity;
 
-			delete[] _data;
-			_data = new T[_capacity];
-			for (size_t i = 0; i < _size; ++i) {
-				_data[i] = other._data[i];
-			}
+			_list.clear();
+			_list = other._list;
 		}
 		return *this;
 	}
 
-	QueueOn& operator=(QueueOn&& other) {
+	QueueOnList& operator=(QueueOnList&& other) {
 		if (this != &other) {
-			delete[] _data;
+			_list.clear();
 
-			_data = other._data;
+			_list = std::move(other._list);
 			_size = other._size;
-			_capacity = other._capacity;
-
-			other._data = nullptr;
-			other._size = 0;
-			other._capacity = 0;
 		}
 		return *this;
 	}
 
-	bool operator==(const QueueOn& other) {
+	bool operator==(const QueueOnList& other) {
 		if (_size != other._size) { return false; }
 
-		for (size_t i = 0; i < _size; ++i) {
-			if (_data[i] != other._data[i]) {
+		auto it_other = other._list.begin();
+		for (auto it = _list.begin(); it != _list.end(); ++it) {
+			if(it_other == other._list.end()){
+				break;
+			}
+			if (*it != *it_other) {
 				return false;
 			}
+			++it_other;
 		}
 		return true;
 	}
 
-	bool operator!=(const QueueOn& other) {
+	bool operator!=(const QueueOnList& other) {
 		return !(*this == other);
 	}
 };

@@ -25,7 +25,7 @@
 #include <utility>
 #include "../../containers/Vector/Vector.hpp"
 template<typename T>
-void bubleSort(Vector<T>& vec){
+void bubbleSort(Vector<T>& vec){
     bool swapped = false;
     size_t n = vec.size();
 

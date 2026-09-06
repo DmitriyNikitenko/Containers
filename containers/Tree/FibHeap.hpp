@@ -220,6 +220,7 @@ class FibHeap {
   ~FibHeap() { clear(); }
 
   bool empty() const { return size == 0; }
+  size_t get_size() const { return size; }
   const T& minimum() const {
     if (size == 0) {
       throw std::runtime_error("The heap is empty");

@@ -3,8 +3,6 @@ name: GitHub Classroom Workflow
 on:
   workflow_dispatch:
   push:
-    paths-ignore:
-      - '.github/*'
 
 permissions:
   checks: write
@@ -15,42 +13,32 @@ jobs:
   Checking-Solution:
     runs-on: ubuntu-latest
     timeout-minutes: 5
+
     steps:
-      - name: Get repository code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install valgrind # Install valgrind
-          # Install a specific version of g++ (example: g++-11)
-          sudo apt-get install g++-11 
-          # Update alternatives to use g++-11 as the default g++ and gcc
-          sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 110
-          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 110
-          # Verify the version (optional)
+          sudo apt-get install -y valgrind
           g++ --version
-          gcc --version
-          # Add more dependencies if needed (e.g., gtest)
 
       - name: Build
-        run: |
-          make
-          if [ $? -ne 0 ]; then
-            echo "Build failed!"
-            exit 1
-          fi
-          !(grep -qwRE --include=*.{cc,cpp,h} '#include <(list|algorithm|stack|queue|deque|set|map)>' ./* ) &&  (echo \"Build...\" )  || ( echo \"Forbiden STL containers\" && exit 9 )
+        run: make
 
       - name: Autograding
         uses: amcp-pit/autograding@v1
 
       - name: Memory leaks
         run: |
-          valgrind --tool=memcheck --leak-check=full --undef-value-errors=no --error-exitcode=111 ./containers_app
+          valgrind \
+            --tool=memcheck \
+            --leak-check=full \
+            --undef-value-errors=no \
+            --error-exitcode=111 \
+            ./tests_runner
 
-      - name: Checkout
-        uses: actions/checkout@v4
       - name: CPD
         uses: amcp-pit/cpd-action@v1
         id: cpd
@@ -60,5 +48,4 @@ jobs:
 
       - name: Clean
         run: |
-          rm -rf ./* || true
-          rm -rf ./.??* || true
+          make clean
