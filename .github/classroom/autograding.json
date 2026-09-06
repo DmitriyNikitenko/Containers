@@ -3,7 +3,7 @@
     {
       "name": "Test 1",
       "setup": "",
-      "run": "timeout 15 ./containers_app",
+      "run": "timeout 15 ./tests_runner",
       "input": "",
       "output": "",
       "comparison": "include",
