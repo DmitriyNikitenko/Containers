@@ -1,27 +1,17 @@
 /*
-*  Key Properties:
-*    - Time Complexity:
-*        * Best Case:    O(n^2)
-*        * Average Case: O(n^2)
-*        * Worst Case:   O(n^2)
-*
-*    - Space Complexity:
-*        * O(1) auxiliary space (in-place algorithm)
-*
-*    - Stability:
-*        * Not stable (relative order of equal elements may change)
-*
-*  Notes:
-*    - Performs a fixed number of comparisons regardless of input order.
-*    - Minimizes the number of swaps (at most n swaps).
-*    - Inefficient for large datasets compared to O(n log n) algorithms.
-*    - Suitable when write operations are expensive and must be minimized.
-*
-*  Educational Note:
-*    - This implementation operates directly on Vector<T> for simplicity.
-*    - In general-purpose code, sorting algorithms should be implemented
-*      using iterators to remain container-agnostic and reusable.
-*/
+ * Selection Sort
+ *
+ * Repeatedly finds the largest element in the unsorted part
+ * and places it at the end of that part.
+ *
+ * Time complexity:
+ *   Best:    O(n^2)
+ *   Average: O(n^2)
+ *   Worst:   O(n^2)
+ *
+ * Space complexity: O(1)
+ * Stable: No
+ */
 #pragma once
 #include <utility>
 #include "../../containers/Vector/Vector.hpp"

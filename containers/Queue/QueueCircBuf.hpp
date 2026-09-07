@@ -1,44 +1,19 @@
 /*
- *  Queue Documentation
+ * Queue
  *
- *  The Queue class implements a First-In-First-Out (FIFO) container
- *  using a dynamically allocated circular buffer.
+ * FIFO queue implemented using a dynamically allocated circular buffer.
  *
- *  The container provides O(1) amortized push and pop operations
- *  by maintaining head and tail indices instead of shifting elements.
+ * Time complexity:
+ *   Push:    O(1) amortized
+ *   Pop:     O(1)
+ *   Front:   O(1)
+ *   Back:    O(1)
+ *   Reserve: O(n)
  *
- *  Key Features:
- *    - Circular buffer (ring buffer) implementation
- *    - O(1) push and pop operations
- *    - Dynamic capacity growth (doubling strategy)
- *    - Copy and move semantics
- *    - Initializer list construction
- *    - Bounds-checked element access (front / back)
- *
- *  Memory Model:
- *    - Storage is allocated using `new T[capacity]`
- *    - All elements are constructed eagerly at allocation time
- *    - pop() and clear() perform logical removal only
- *    - Element destructors are invoked only when the buffer is destroyed
- *      or reallocated
- *
- *  Requirements for Type T:
- *    - Copy constructible
- *    - Copy assignable
- *    - Destructible
- *
- *  Exception Safety:
- *    - Strong exception safety for constructors
- *    - Basic exception safety for copy assignment
- *    - reserve() provides strong exception safety
- *
- *  Limitations:
- *    - No iterator support
- *    - No allocator or placement-new based lifetime management
- *    - Destructors of elements are not called on pop()
- *
- *  This implementation prioritizes simplicity and performance
- *  over full STL-level memory management semantics.
+ * Key properties:
+ *   - Circular buffer with dynamic capacity growth
+ *   - Copy and move semantics
+ *   - Supports initializer list construction
  */
 #pragma once
 #include <stdexcept>

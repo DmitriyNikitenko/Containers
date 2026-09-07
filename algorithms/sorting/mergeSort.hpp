@@ -1,27 +1,17 @@
 /*
-*  Key Properties:
-*    - Time Complexity:
-*        * Best Case:    O(n log n)
-*        * Average Case: O(n log n)
-*        * Worst Case:   O(n log n)
-*
-*    - Space Complexity:
-*        * O(n) auxiliary space (requires additional buffer for merging)
-*
-*    - Stability:
-*        * Stable (preserves the relative order of equal elements)
-*
-*  Notes:
-*    - Guarantees consistent O(n log n) performance regardless of input distribution.
-*    - Well-suited for large datasets and linked structures.
-*    - Requires additional memory, unlike in-place algorithms (e.g., quicksort, heapsort).
-*    - Cache performance may be lower compared to some in-place algorithms.
-*
-*  Educational Note:
-*    - This implementation operates directly on Vector<T> for simplicity.
-*    - In general-purpose code, sorting algorithms should be implemented
-*      using iterators to remain container-agnostic and reusable.
-*/
+ * Merge Sort
+ *
+ * Divides the sequence into smaller parts and merges
+ * the sorted parts.
+ *
+ * Time complexity:
+ *   Best:    O(n log n)
+ *   Average: O(n log n)
+ *   Worst:   O(n log n)
+ *
+ * Space complexity: O(n)
+ * Stable: Yes
+ */
 #pragma once
 #include "../../containers/Vector/Vector.hpp"
 

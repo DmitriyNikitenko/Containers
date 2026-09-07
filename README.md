@@ -70,7 +70,7 @@ Containers/
 | **`gnomeSort`** | Swaps adjacent elements and moves backwards when an inversion is found. | `O(n²)` |
 | **`mergeSort`** | Divides the sequence and merges sorted parts. | `O(n log n)` |
 | **`quickSort`** | Partitions the sequence around a pivot and sorts the parts. | Average `O(n log n)`, Worst `O(n²)` |
-| **`selectionSort`** | Selects the minimum element and places it at the beginning of the unsorted part. | `O(n²)` |
+| **`selectionSort`** | Selects the largest element and places it at the end of the unsorted part. | `O(n²)` |
 | **`shakerSort`** | Bubble sort variant that processes the sequence in both directions. | `O(n²)` |
 
 

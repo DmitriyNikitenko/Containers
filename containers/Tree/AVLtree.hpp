@@ -1,37 +1,22 @@
 /*
-*  AVLtree Documentation
-*
-*  The AVLtree class is a self-balancing binary search tree implementation (AVL Tree).
-*  It maintains O(log n) time complexity for insertions, deletions, and lookups by ensuring
-*  that the tree remains balanced using AVL rotations.
-*
-*  Key Features:
-*    - Automatic balancing via single and double rotations (left/right)
-*    - Support for insert, remove, and search operations
-*    - Iterator with element access
-*    - Height tracking and parent-pointer support for efficient upward traversal
-*    - Full support for deep copy and move semantics
-*    - Memory-safe node management using recursive destruction
-*
-*  Implementation Notes:
-*    - Node structure includes parent pointer and subtree height
-*    - Balancing is handled bottom-up after insertions and deletions
-*    - Rotations correctly update all parent/child relationships and height
-*    - Iterator supports basic arithmetic, dereferencing, and comparison
-*    - Tree uses recursive functions for destruction and copying
-*    - T must support default constructor, comparisons, and move semantics
-*
-*  Limitations:
-*    - Iterators become invalid after structural modifications (insert/remove)
-*    - Not thread-safe for concurrent modification or access
-*    - No support for custom allocators or memory pooling
-*    - There is no support for constant objects
-*
-*  Usage Recommendations:
-*    - Suitable for ordered data where fast insertion/deletion and lookup is needed
-*    - Avoid modifying the tree while iterating unless iterators are updated
-*    - Ensure type T fulfills required operations (see template assumptions)
-*/
+ * AVLtree
+ *
+ * Self-balancing binary search tree that maintains balance
+ * using single and double rotations.
+ *
+ * Time complexity:
+ *   Insert: O(log n)
+ *   Remove: O(log n)
+ *   Find:   O(log n)
+ *   Min:    O(log n)
+ *   Max:    O(log n)
+ *
+ * Key properties:
+ *   - Maintains balance through AVL rotations
+ *   - Supports custom comparison with Compare
+ *   - Provides bidirectional ordered iteration
+ *   - Supports copy and move semantics
+ */
 #pragma once 
 #include <cstddef>
 #include <stdexcept>

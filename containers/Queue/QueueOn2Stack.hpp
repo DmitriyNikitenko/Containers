@@ -1,30 +1,20 @@
 /*
-*  QueueOn2Stack Documentation
-*
-*  The QueueOn2Stack class implements a First-In-First-Out (FIFO) container
-*  using two internal stacks to simulate queue behavior.
-*
-*  Key Features:
-*    - Amortized O(1) enqueue (`push`) and dequeue (`pop`)
-*    - Separation of input and output stacks to minimize element movement
-*    - Strong exception safety for core operations, assuming `Stack<T>` provides it
-*    - Copy and move semantics for safe value and resource transfer
-*
-*  Requirements for Type T:
-*    - Copy constructor
-*    - Copy assignment operator
-*    - Destructor (implicitly used)
-*
-*  Implementation Notes:
-*    - New elements are pushed onto the input stack
-*    - When the output stack is empty and a `pop` is requested, all elements
-*      are transferred from input to output, reversing their order so that
-*      the oldest element is on top of the output stack
-*
-*  Limitations:
-*    - No iterator support
-*    - Access to the front element relies on the state of the output stack
-*/
+ * QueueOn2Stack
+ *
+ * FIFO queue implemented using two stacks.
+ * Input elements are transferred to the output stack when needed.
+ *
+ * Time complexity:
+ *   Push:    O(1)
+ *   Pop:     O(1) amortized
+ *   Front:   O(1) amortized
+ *   Clear:   O(n)
+ *
+ * Key properties:
+ *   - Uses separate input and output stacks
+ *   - FIFO behavior through stack reversal
+ *   - Copy and move semantics
+ */
 #pragma once
 #include <stdexcept>
 #include <initializer_list>

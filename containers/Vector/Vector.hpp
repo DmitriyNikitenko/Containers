@@ -1,27 +1,26 @@
 /*
-*  Vector Documentation
-*
-*  The Vector class is a dynamic array implementation with automatic resizing.
-*  Supports bounds-checked iterators and basic STL-like container operations.
-*
-*  Key Features:
-*    - Dynamic memory expansion/shrinking.
-*    - Bounds checking for element access
-*    - Support for random-access iterators.
-*    - Capacity and size management.
-*
-*  Notes:
-*    - Iterators throw std::out_of_range on out-of-bounds access.
-*    - Existing iterators are invalidated when capacity changes.
-*    - Not thread-safe.
-*/
-
-/*
-*  type T must have :
-*   - copy constructor
-*   - operator = (copy)
-*   - move semantic
-*/
+ * Vector
+ *
+ * Dynamic array with automatic capacity management.
+ * Supports element access, insertion, deletion, resizing, and iteration.
+ *
+ * Time complexity:
+ *   Access:        O(1)
+ *   Push back:     O(1) amortized
+ *   Pop back:      O(1)
+ *   Insert:        O(n)
+ *   Erase:         O(n)
+ *   Resize:        O(n)
+ *   Reserve:       O(n)
+ *   Shrink to fit: O(n)
+ *   Swap:          O(1)
+ *
+ * Key properties:
+ *   - Dynamically allocated contiguous storage
+ *   - Automatic capacity growth
+ *   - Provides random-access iterators
+ *   - Supports copy and move semantics
+ */
 #pragma once
 #include <stdexcept>
 #include <type_traits>

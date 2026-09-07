@@ -1,3 +1,22 @@
+/*
+ * AAtree
+ *
+ * Self-balancing binary search tree based on the AA-tree algorithm.
+ * Supports insertion, deletion, search, and in-order iteration.
+ *
+ * Time complexity:
+ *   Insert:  O(log n) average
+ *   Erase:   O(log n) average
+ *   Find:    O(log n) average
+ *   Min:     O(log n)
+ *   Max:     O(log n)
+ *
+ * Key properties:
+ *   - Maintains balance using skew() and split()
+ *   - Does not allow duplicate elements
+ *   - Supports copy and move semantics
+ *   - Provides an in-order iterator
+ */
 #pragma once 
 #include <cstddef>
 #include <stdexcept>

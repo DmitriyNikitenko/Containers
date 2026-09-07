@@ -1,3 +1,20 @@
+/*
+ * HashSet
+ *
+ * Hash-based set that stores unique elements using separate chaining.
+ * Each bucket contains a linked list of elements with the same hash index.
+ *
+ * Time complexity:
+ *   Insert:   O(1) average, O(n) worst
+ *   Remove:   O(1) average, O(n) worst
+ *   Contains: O(1) average, O(n) worst
+ *   Rehash:   O(n)
+ *
+ * Key properties:
+ *   - Stores unique elements
+ *   - Separate chaining for collision handling
+ *   - Automatic rehashing when the load factor exceeds 0.75
+ */
 #include <functional>
 #include "../List/ListD.hpp"
 

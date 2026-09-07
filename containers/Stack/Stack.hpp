@@ -1,42 +1,21 @@
 /*
-* Stack Documentation
-*
-* The Stack class implements a stack with dynamic memory management.
-* Features:
-*    - Low-level memory management via ::operator new() and ::operator delete().
-*    - Use of placement new for explicit object construction.
-*    - Manual destructor calls to control object lifetimes.
-*
-* Core Concepts:
-* -------------------
-* 1. Memory Management:
-*    - Memory is allocated as "raw" (uninitialized) using ::operator new(), avoiding
-*      default constructor calls for unused elements.
-*    - Memory is deallocated via ::operator delete(), which does not invoke destructors
-*      (they are called manually).
-*
-* 2. Placement New:
-*    - Objects are constructed in pre-allocated memory using the syntax: new (address) T(args).
-*    - Enables:
-*      * Precise control over object initialization.
-*      * Support for types without default constructors.
-*      * Avoidance of unnecessary data copies.
-*
-* 3. Safety:
-*    - Destructors are explicitly called for each object before memory deallocation.
-*    - Constructors include exception handling to prevent leaks.
-*
-* Differences from Standard Containers:
-* -----------------------------------
-* - Does not use new[]/delete[], providing full control over object lifecycles.
-* - Does not require T to have a default constructor.
-* - Optimized for scenarios where the stack size changes frequently.
-
-* Limitations:
-* ------------
-* - Not thread-safe.
-* - Move semantics must be supported by type T for efficient object transfers.
-*/
+ * Stack
+ *
+ * LIFO stack with manual memory management and explicit object lifetime control.
+ *
+ * Time complexity:
+ *   Push:    O(1) amortized
+ *   Pop:     O(1)
+ *   Top:     O(1)
+ *   Clear:   O(n)
+ *   Reserve: O(n)
+ *   Swap:    O(n)
+ *
+ * Key properties:
+ *   - Uses raw memory and placement new
+ *   - Explicitly manages object construction and destruction
+ *   - Supports copy and move semantics
+ */
 #pragma once
 #include <stdexcept>
 #include <initializer_list>

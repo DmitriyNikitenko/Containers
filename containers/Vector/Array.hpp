@@ -1,25 +1,22 @@
 /*
-*  Array Documentation
-*
-*  The Array class is a fixed-capacity container designed to store a predefined number of elements.
-*  It provides element access, basic manipulation methods, and a custom iterator for traversal.
-*
-*  Key Features:
-*    - Fixed-size buffer defined at compile time (no dynamic allocation)
-*    - Bounds-checked element access (`operator[]`, `front()`, `back()`)
-*    - Custom iterator class supporting arithmetic and dereferencing
-*    - Copy and move constructors/assignment operators implemented
-*    - `push_back`, `fill`, and conversion to custom String
-*    - `to_string()` method converting contents to a string
-*
-*  Notes:
-*    - Maximum capacity defined by template parameter `N`
-*    - `push_back()` will throw if called beyond capacity
-*    - Iterator class supports forward and backward movement
-*    - Not thread-safe for concurrent use
-*    - There is no support for constant objects
-*/
-
+ * Array
+ *
+ * Fixed-capacity array that stores elements in a statically allocated buffer.
+ * Supports element access, insertion, filling, and random-access iteration.
+ *
+ * Time complexity:
+ *   Access:    O(1)
+ *   Push back: O(1)
+ *   Front:     O(1)
+ *   Back:      O(1)
+ *   Fill:      O(n)
+ *
+ * Key properties:
+ *   - Fixed capacity defined by template parameter N
+ *   - Does not perform dynamic memory allocation
+ *   - Provides a random-access style custom iterator
+ *   - Supports copy and move semantics
+ */
 #pragma once
 #include <stdexcept>
 #include <initializer_list>

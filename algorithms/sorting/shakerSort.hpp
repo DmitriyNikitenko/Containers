@@ -1,28 +1,17 @@
 /*
-*  Key Properties:
-*    - Time Complexity:
-*        * Best Case:    O(n)
-*        * Average Case: O(n^2)
-*        * Worst Case:   O(n^2)
-*
-*    - Space Complexity:
-*        * O(1) (in-place algorithm)
-*
-*    - Stability:
-*        * Stable 
-*
-*  Notes:
-*    - Bidirectional variant of bubble sort (also known as shaker sort).
-*    - Improves over standard bubble sort by moving elements in both directions
-*      during each iteration, reducing the number of passes in some cases.
-*    - Efficient only for small or nearly sorted datasets.
-*    - Performance remains quadratic for large or highly unsorted inputs.
-*
-*  Educational Note:
-*    - This implementation operates directly on Vector<T> for simplicity.
-*    - In general-purpose code, sorting algorithms should be implemented
-*      using iterators to remain container-agnostic and reusable.
-*/
+ * Cocktail Shaker Sort
+ *
+ * Performs bidirectional bubble sort by moving larger elements
+ * to the end and smaller elements to the beginning of the unsorted part.
+ *
+ * Time complexity:
+ *   Best:    O(n)
+ *   Average: O(n^2)
+ *   Worst:   O(n^2)
+ *
+ * Space complexity: O(1)
+ * Stable: Yes
+ */
 #pragma once
 #include <utility>
 #include "../../containers/Vector/Vector.hpp"

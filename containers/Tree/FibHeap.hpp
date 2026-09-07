@@ -1,3 +1,24 @@
+/*
+ * FibHeap
+ *
+ * Fibonacci heap supporting insertion, minimum, extraction,
+ * decrease-key, deletion, and heap merging operations.
+ *
+ * Time complexity:
+ *   Insert:       O(1)
+ *   Minimum:      O(1)
+ *   Extract min:  O(log n) amortized
+ *   Decrease key: O(1) amortized
+ *   Delete:       O(log n) amortized
+ *   Union:        O(1)
+ *   Find:         O(n)
+ *
+ * Key properties:
+ *   - Supports decrease-key with cascading cuts
+ *   - Uses circular doubly linked lists for roots and children
+ *   - Maintains the minimum node for O(1) access
+ *   - Supports move semantics
+ */
 #pragma once
 #include <cmath>
 #include <limits>

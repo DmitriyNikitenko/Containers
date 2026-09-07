@@ -1,22 +1,21 @@
 /*
-*  ListD Documentation
-*
-*  The ListD class is a doubly linked list implementation providing efficient insertion/deletion operations.
-*  Supports bidirectional iterators with bounds checking and common list operations.
-*
-*  Key Features:
-*    - Dynamic memory management with O(1) insertion/deletion at head/tail
-*    - Bidirectional iterators with element access operations
-*    - Exception safety for core operations
-*    - Custom operations: unique(), reverse()
-*    - Support for initializer lists and move semantics
-*    - Move semantic
-*
-*  Notes:
-*    - Iterators become invalid after element deletion
-*    - Not thread-safe for concurrent access
-*    - Uses deep copying for copy operations
-*/
+ * ListD
+ *
+ * Doubly linked list that supports insertion, deletion,
+ * searching, and bidirectional iteration.
+ *
+ * Time complexity:
+ *   Push front/back: O(1)
+ *   Pop front/back:  O(1)
+ *   Insert:          O(1) after reaching position
+ *   Erase:           O(1) after reaching position
+ *   Find:            O(n)
+ *
+ * Key properties:
+ *   - Bidirectional iterators
+ *   - Supports copy and move semantics
+ *   - Custom unique() and reverse() operations
+ */
 #include <stdexcept>
 #include <initializer_list>
 

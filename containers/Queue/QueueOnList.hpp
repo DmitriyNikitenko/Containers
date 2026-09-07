@@ -1,8 +1,20 @@
 /*
-*  QueueOnList Documentation
-*
-*
-*/
+ * QueueOnList
+ *
+ * FIFO queue implemented using a doubly linked list.
+ *
+ * Time complexity:
+ *   Push:    O(1)
+ *   Pop:     O(1)
+ *   Front:   O(1)
+ *   Back:    O(1)
+ *   Find:    O(n)
+ *
+ * Key properties:
+ *   - Uses a doubly linked list as underlying storage
+ *   - Supports copy and move semantics
+ *   - Supports initializer list construction
+ */
 #pragma once
 #include <stdexcept>
 #include <initializer_list>

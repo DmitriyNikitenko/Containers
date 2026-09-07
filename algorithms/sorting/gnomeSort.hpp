@@ -1,25 +1,17 @@
 /*
-*  Key Properties:
-*    - Time Complexity:
-*        * Best Case:    O(n)
-*        * Average Case: O(n^2)
-*        * Worst Case:   O(n^2)
-*
-*    - Space Complexity:
-*        * O(1) auxiliary space (in-place algorithm)
-*
-*    - Stability:
-*        * Stable 
-*
-*  Notes:
-*    - Efficient only for small or nearly sorted datasets.
-*    - Performance degrades significantly on large or reverse-sorted inputs.
-*
-*  Educational Note:
-*    - This implementation operates directly on Vector<T> for simplicity.
-*    - In general-purpose code, sorting algorithms should be implemented
-*      using iterators to remain container-agnostic and reusable.
-*/
+ * Gnome Sort
+ *
+ * Compares adjacent elements and swaps them when they are
+ * in the wrong order, moving backwards after each swap.
+ *
+ * Time complexity:
+ *   Best:    O(n)
+ *   Average: O(n^2)
+ *   Worst:   O(n^2)
+ *
+ * Space complexity: O(1)
+ * Stable: Yes
+ */
 #pragma once
 #include <utility>
 #include "../../containers/Vector/Vector.hpp"

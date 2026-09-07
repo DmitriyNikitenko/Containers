@@ -1,3 +1,20 @@
+/*
+ * Quick Sort
+ *
+ * Selects a random pivot, partitions the sequence around it,
+ * and recursively or iteratively sorts the resulting subranges.
+ *
+ * Time complexity:
+ *   Best:    O(n log n)
+ *   Average: O(n log n)
+ *   Worst:   O(n^2)
+ *
+ * Space complexity:
+ *   Recursive: O(log n) average due to recursion stack
+ *   Iterative: O(log n) average due to auxiliary stack
+ *
+ * Stable: No
+ */
 #pragma once
 #include <utility>
 #include <random>

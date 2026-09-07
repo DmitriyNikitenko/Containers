@@ -1,26 +1,17 @@
 /*
-*  Key Properties:
-*    - Time Complexity:
-*        * Best Case:    O(n)
-*        * Average Case: O(n^2)
-*        * Worst Case:   O(n^2)
-*
-*    - Space Complexity:
-*        * O(1) auxiliary space (in-place algorithm)
-*
-*    - Stability:
-*        * Stable 
-*
-*  Notes:
-*    - Simple and easy to implement, but inefficient for large datasets.
-*    - Performs well only on small or nearly sorted sequences.
-*    - Early-exit optimization significantly improves best-case performance.
-*
-*  Educational Note:
-*    - This implementation operates directly on Vector<T> for simplicity.
-*    - In general-purpose code, sorting algorithms should be implemented
-*      using iterators to remain container-agnostic and reusable.
-*/
+ * Bubble Sort
+ *
+ * Repeatedly compares adjacent elements and swaps them
+ * if they are in the wrong order.
+ *
+ * Time complexity:
+ *   Best:    O(n)
+ *   Average: O(n^2)
+ *   Worst:   O(n^2)
+ *
+ * Space complexity: O(1)
+ * Stable: Yes
+ */
 #pragma once
 #include <utility>
 #include "../../containers/Vector/Vector.hpp"

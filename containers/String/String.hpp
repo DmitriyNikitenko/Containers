@@ -1,24 +1,25 @@
 /*
-*  String Documentation
-*
-*  The String class is a dynamic string implementation with automatic memory management.
-*  Provides C-style string operations with bounds checking and resizing capabilities.
-*
-*  Key Features:
-*    - Dynamic memory expansion/shrinking for efficient storage.
-*    - Bounds-checked element access via at() and operator[].
-*    - Common string operations: insert, erase, replace, concatenation.
-*    - Explicit capacity management (reserve/resize/shrink_to_fit).
-*    - Move semantics for efficient resource transfer.
-*    - Full RAII compliance with proper copy/move semantics.
-*
-*  Notes:
-*    - Throws std::out_of_range for invalid positions in at() and modifier methods.
-*    - Maintains null terminator for C-string compatibility.
-*    - Move operations leave source object in valid empty state.
-*    - Not thread-safe for concurrent modifications.
-*    - All operations maintain string integrity (null-termination and size constraints).
-*/
+ * String
+ *
+ * Dynamic string with manual memory management.
+ *
+ * Time complexity:
+ *   Access:        O(1)
+ *   Push back:     O(1) amortized
+ *   Pop back:      O(1)
+ *   Insert:        O(n)
+ *   Erase:         O(n)
+ *   Replace:       O(n)
+ *   Concatenation: O(n)
+ *   Reserve:       O(n)
+ *   Resize:        O(n)
+ *
+ * Key properties:
+ *   - Maintains a null-terminated character buffer
+ *   - Supports dynamic capacity management
+ *   - Supports copy and move semantics
+ *   - Provides iterator support
+ */
 #pragma once
 #include <stdexcept>
 #include <string>
